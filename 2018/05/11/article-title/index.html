@@ -8,7 +8,7 @@
   
 
 
-<html class="theme-next gemini use-motion" lang="">
+<html class="theme-next gemini use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -102,19 +102,19 @@
 
 
 
-  <meta name="description" content="linux进程管理一.进程相关概念1.进程与程序的关系​    首先区分一下进程和程序的概念,程序是一种静态的,是一个文件或者是一组文件的集合,存储在硬盘中,当用户需要时用该程序时,利用操作系统的交互界面运行程序,此时程序会被载入内存,由操作系统为其分配内存空间,然后操作系统还会维护一段数据用于描述该程序的一些状态,就像文件的元数据一样,在Linux中操作系统会创建一个task_struct的数据">
+  <meta name="description" content="首先区分一下进程和程序的概念,程序是一种静态的,是一个文件或者是一组文件的集合,存储在硬盘中,当用户需要时用该程序时,利用操作系统的交互界面运行程序,此时程序会被载入内存,由操作系统为其分配内存空间,然后操作系统还会维护一段数据用于描述该程序的一些状态,就像文件的元数据一样,在Linux中操作系统会创建一个task_struct的数据结构用于存放这些,此时在内中的这些数据被称为是一个进程">
 <meta property="og:type" content="article">
-<meta property="og:title" content=" article title">
+<meta property="og:title" content=" linux进程管理">
 <meta property="og:url" content="http://yoursite.com/2018/05/11/article-title/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="linux进程管理一.进程相关概念1.进程与程序的关系​    首先区分一下进程和程序的概念,程序是一种静态的,是一个文件或者是一组文件的集合,存储在硬盘中,当用户需要时用该程序时,利用操作系统的交互界面运行程序,此时程序会被载入内存,由操作系统为其分配内存空间,然后操作系统还会维护一段数据用于描述该程序的一些状态,就像文件的元数据一样,在Linux中操作系统会创建一个task_struct的数据">
-<meta property="og:locale" content="default">
+<meta property="og:description" content="首先区分一下进程和程序的概念,程序是一种静态的,是一个文件或者是一组文件的集合,存储在硬盘中,当用户需要时用该程序时,利用操作系统的交互界面运行程序,此时程序会被载入内存,由操作系统为其分配内存空间,然后操作系统还会维护一段数据用于描述该程序的一些状态,就像文件的元数据一样,在Linux中操作系统会创建一个task_struct的数据结构用于存放这些,此时在内中的这些数据被称为是一个进程">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/05/11/imgs/process_state.png">
 <meta property="og:image" content="http://yoursite.com/2018/05/11/imgs/ps-demo.png">
-<meta property="og:updated_time" content="2018-05-11T05:12:08.746Z">
+<meta property="og:updated_time" content="2018-05-11T05:44:23.838Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content=" article title">
-<meta name="twitter:description" content="linux进程管理一.进程相关概念1.进程与程序的关系​    首先区分一下进程和程序的概念,程序是一种静态的,是一个文件或者是一组文件的集合,存储在硬盘中,当用户需要时用该程序时,利用操作系统的交互界面运行程序,此时程序会被载入内存,由操作系统为其分配内存空间,然后操作系统还会维护一段数据用于描述该程序的一些状态,就像文件的元数据一样,在Linux中操作系统会创建一个task_struct的数据">
+<meta name="twitter:title" content=" linux进程管理">
+<meta name="twitter:description" content="首先区分一下进程和程序的概念,程序是一种静态的,是一个文件或者是一组文件的集合,存储在硬盘中,当用户需要时用该程序时,利用操作系统的交互界面运行程序,此时程序会被载入内存,由操作系统为其分配内存空间,然后操作系统还会维护一段数据用于描述该程序的一些状态,就像文件的元数据一样,在Linux中操作系统会创建一个task_struct的数据结构用于存放这些,此时在内中的这些数据被称为是一个进程">
 <meta name="twitter:image" content="http://yoursite.com/2018/05/11/imgs/process_state.png">
 
 
@@ -132,7 +132,7 @@
   };
 </script>
 
-  <title> article title | Hexo</title>
+  <title> linux进程管理 | Hexo</title>
   
 
 
@@ -172,7 +172,7 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
@@ -221,7 +221,31 @@
           
           <li class="menu-item menu-item-home">
     <a href="/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Startseite</a>
+      <i class="menu-item-icon fa fa-fw fa-主页"></i> <br />Startseite</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-关于"></i> <br />Über</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-关键字"></i> <br />Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Kategorien</a>
   </li>
         
         
@@ -229,7 +253,31 @@
           
           <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archiv</a>
+      <i class="menu-item-icon fa fa-fw fa-归档"></i> <br />Archiv</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />Schedule</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-sitemap">
+    <a href="/sitemap.xml" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />Sitemap</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />Commonweal 404</a>
   </li>
 
       
@@ -283,9 +331,9 @@
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/11/article-title/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="朱大白">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/dabai.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -297,7 +345,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline"> article title
+          <h1 class="post-title" itemprop="name headline"> linux进程管理
               
             
           </h1>
@@ -322,7 +370,7 @@
                 
               
 
-              <time title="Post created: 2018-05-11 13:10:27 / Updated at: 13:12:08" itemprop="dateCreated datePublished" datetime="2018-05-11T13:10:27+08:00">2018-05-11</time>
+              <time title="Post created: 2018-05-11 13:10:27 / Updated at: 13:44:23" itemprop="dateCreated datePublished" datetime="2018-05-11T13:10:27+08:00">2018-05-11</time>
             
 
             
@@ -360,7 +408,8 @@
       
 
       
-        <h1 id="linux进程管理"><a href="#linux进程管理" class="headerlink" title="linux进程管理"></a>linux进程管理</h1><h3 id="一-进程相关概念"><a href="#一-进程相关概念" class="headerlink" title="一.进程相关概念"></a>一.进程相关概念</h3><h4 id="1-进程与程序的关系"><a href="#1-进程与程序的关系" class="headerlink" title="1.进程与程序的关系"></a>1.进程与程序的关系</h4><p>​    首先区分一下进程和程序的概念,程序是一种静态的,是一个文件或者是一组文件的集合,存储在硬盘中,当用户需要时用该程序时,利用操作系统的交互界面运行程序,此时程序会被载入内存,由操作系统为其分配内存空间,然后操作系统还会维护一段数据用于描述该程序的一些状态,就像文件的元数据一样,在Linux中操作系统会创建一个task_struct的数据结构用于存放这些,此时在内中的这些数据被称为是一个进程</p>
+        <p>首先区分一下进程和程序的概念,程序是一种静态的,是一个文件或者是一组文件的集合,存储在硬盘中,当用户需要时用该程序时,利用操作系统的交互界面运行程序,此时程序会被载入内存,由操作系统为其分配内存空间,然后操作系统还会维护一段数据用于描述该程序的一些状态,就像文件的元数据一样,在Linux中操作系统会创建一个task_struct的数据结构用于存放这些,此时在内中的这些数据被称为是一个进程<br><a id="more"></a></p>
+<h1 id="linux进程管理"><a href="#linux进程管理" class="headerlink" title="linux进程管理"></a>linux进程管理</h1><h3 id="一-进程相关概念"><a href="#一-进程相关概念" class="headerlink" title="一.进程相关概念"></a>一.进程相关概念</h3><h4 id="1-进程与程序的关系"><a href="#1-进程与程序的关系" class="headerlink" title="1.进程与程序的关系"></a>1.进程与程序的关系</h4><p>​    首先区分一下进程和程序的概念,程序是一种静态的,是一个文件或者是一组文件的集合,存储在硬盘中,当用户需要时用该程序时,利用操作系统的交互界面运行程序,此时程序会被载入内存,由操作系统为其分配内存空间,然后操作系统还会维护一段数据用于描述该程序的一些状态,就像文件的元数据一样,在Linux中操作系统会创建一个task_struct的数据结构用于存放这些,此时在内中的这些数据被称为是一个进程<br><!-- more --></p>
 <h4 id="2-进程的创建"><a href="#2-进程的创建" class="headerlink" title="2.进程的创建"></a>2.进程的创建</h4><p>​    首先,进程是有父子关系的即每一个进程都是由另外的一个进程创建的,当然在操作系统启动的时候会创建其老祖进程,在CentOS6中该进程是init而在CentOS7中这个进程是systemd在Linux中创建进程主要使用了两个函数fork()和clone(),关于这两个函数这里不做具体阐述,因为我也不了解其内部机制,创建进程使用的是一种叫做写时复制(CoW)的机制来创建进程的,这种机制是比较节省资源的,在进程创建之初系统并不会真正的为其分配内存,而是与其父进程,即创建该进程的进程以只读的方式共享同一块内存,当子进程需要写入数据的时候操作系统才会复制一份父进程的内存空间到其他地方给子进程,这里就有点类似lvm中的快照了</p>
 <h4 id="3-进程的状态"><a href="#3-进程的状态" class="headerlink" title="3.进程的状态"></a>3.进程的状态</h4><p>​    众所周知,虽然现在的操作系统同时可以运行多个程序,但是在同一个CPU上,某一个时间点上只有一个进程在运行,我们看到的多个进程同时运行其实是一个假象,CPU是通过时间片的方式来运行多个程序的,即某一个时间段运行一个进程下一个时间段运行另外一个进程,这个时间段是以毫秒为单位进行分配的,因此我们人类根本感觉不到他的切换,这里也就引出了一个问题,进程的状态切换,用下面这张图加以说明:</p>
 <p>​    <img src="../imgs/process_state.png" alt=""></p>
@@ -452,22 +501,6 @@ RTPRIO:实时优先级
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2018/05/11/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
-      
 
       
       
@@ -526,8 +559,12 @@ RTPRIO:实时优先级
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <p class="site-author-name" itemprop="name">John Doe</p>
-              <p class="site-description motion-element" itemprop="description"></p>
+              <img class="site-author-image" itemprop="image"
+                src="/images/dabai.jpg"
+                alt="朱大白" />
+            
+              <p class="site-author-name" itemprop="name">朱大白</p>
+              <p class="site-description motion-element" itemprop="description">试图不断调战自己舒适区的人</p>
           </div>
 
           
@@ -537,7 +574,7 @@ RTPRIO:实时优先级
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-count">1</span>
                     <span class="site-state-item-name">Artikel</span>
                   </a>
                 </div>
@@ -551,6 +588,20 @@ RTPRIO:实时优先级
 
           
 
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zhudabai" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:uuidxiaozhu@163.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
           
 
           
@@ -601,7 +652,7 @@ RTPRIO:实时优先级
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">朱大白</span>
 
   
 
