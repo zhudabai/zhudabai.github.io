@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.2.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="对raid级别进行介绍,mdadm工具,逻辑卷及其管理工具">
+<meta name="keywords" content="linux,磁盘">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RAID&amp;LVM">
+<meta property="og:url" content="http://yoursite.com/2018/05/13/RAID-LVM/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="对raid级别进行介绍,mdadm工具,逻辑卷及其管理工具">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/raid0.png">
+<meta property="og:image" content="http://yoursite.com/images/raid1.png">
+<meta property="og:image" content="http://yoursite.com/images/raid4.png">
+<meta property="og:image" content="http://yoursite.com/images/raid5.png">
+<meta property="og:image" content="http://yoursite.com/images/raid6.png">
+<meta property="og:image" content="http://yoursite.com/images/lvm.png">
+<meta property="og:updated_time" content="2018-05-13T13:39:55.686Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RAID&amp;LVM">
+<meta name="twitter:description" content="对raid级别进行介绍,mdadm工具,逻辑卷及其管理工具">
+<meta name="twitter:image" content="http://yoursite.com/images/raid0.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/13/RAID-LVM/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>RAID&LVM | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-主页"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-linux基础">
+    <a href="/categories/linux基础" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-linux基础"></i> <br />linux基础</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-关于"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/13/RAID-LVM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="朱大白">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/dabai.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">RAID&LVM
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-13 19:14:00 / 修改时间：21:39:55" itemprop="dateCreated datePublished" datetime="2018-05-13T19:14:00+08:00">2018-05-13</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux基础/" itemprop="url" rel="index"><span itemprop="name">Linux基础</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>对raid级别进行介绍,mdadm工具,逻辑卷及其管理工具<br><a id="more"></a></p>
+<h2 id="RAID"><a href="#RAID" class="headerlink" title="RAID"></a>RAID</h2><h4 id="简介"><a href="#简介" class="headerlink" title="简介:"></a><strong>简介</strong>:</h4><blockquote>
+<p>中文名称叫做廉价的磁盘冗余阵列,使用多块硬盘组合工作,用来提高读写的性能以及磁盘的高可用性,通过将数据分成若干个chunk,根据不同的级别做相应的处理,有两种实现方式,一种是通过软件模拟,在Linux中可以使用mdadm这个工具进行模拟,这种方式的效果不是特别好,首先性能肯定不行,而且本人的测试过程中感觉不是特别好用,因此不建议在生产环境中使用,另外一种就是在生产环境中使用的,通过硬件实现的,最初的时候需要单独购买raid卡,才能使服务器支持,现在大多数的主板中都直接支持,需要在bios中做相应的设置就可以了,</p>
+</blockquote>
+<h4 id="RAID级别"><a href="#RAID级别" class="headerlink" title="RAID级别:"></a><strong>RAID级别</strong>:</h4><p>raid不同的级别定义了不同的工作方式,下面依次做介绍</p>
+<p><strong>RAID0</strong>:条带集,将文件根据定义好的chunk切割为若干块,然后逐块将chunk存入不同的磁盘中,如下图所示:</p>
+<p><img src="/images/raid0.png" alt=""></p>
+<p><strong>RAID1</strong>:就是做镜像,就和备份一样,虽然和备份一样,但是却不可以当备份来用,因为删除一个文件后,两边的文件都会被删除</p>
+<p><img src="/images/raid1.png" alt=""></p>
+<p><strong>RAID4:</strong> 为了解决RAID0的可用性和RAID1的磁盘利用率低的问题,RAID4使用一块磁盘来存放另外两块硬盘的数据校验,且可以利用该校验位与其他的一块硬盘上的chunk来计算出另外一块磁盘上的chunk,这样就保证了如果有一块损坏,数据还可以正常使用,但是这种方式有一个问题就是存放校验位的磁盘故障率特别高,因此现在基本不用了</p>
+<p><img src="/images/raid4.png" alt=""></p>
+<p><strong>RAID5:</strong> 主要是解决了RAID4中校验位盘容易损坏的问题,它是将校验位依次存于每一块硬盘中,这样就解决了RAID4中的问题</p>
+<p><img src="/images/raid5.png" alt=""></p>
+<p><strong>RAID6</strong>:这是豪华版的RAID5,它每次用两块硬盘来存储校验位,这样可用性又提高了不少</p>
+<p><img src="/images/raid6.png" alt=""></p>
+<p>以下,用这个表格来列出各个级别的对比:</p>
+<table>
+<thead>
+<tr>
+<th>级别</th>
+<th>名称</th>
+<th>磁盘利用率</th>
+<th>硬盘数</th>
+<th>容错能力</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>条带集</td>
+<td>100%</td>
+<td>最少2块</td>
+<td>无</td>
+</tr>
+<tr>
+<td>1</td>
+<td>镜像</td>
+<td>50%</td>
+<td>最少2块</td>
+<td>有</td>
+</tr>
+<tr>
+<td>4</td>
+<td>带有容错的条带集</td>
+<td>(n-1)/n</td>
+<td>最少3块</td>
+<td>有</td>
+</tr>
+<tr>
+<td>5</td>
+<td>带有容错的条带集</td>
+<td>(n-1)/n</td>
+<td>最少3块</td>
+<td>有</td>
+</tr>
+<tr>
+<td>6</td>
+<td>带有容错的条带集</td>
+<td>(n-2)/n</td>
+<td>最少4块</td>
+<td>有</td>
+</tr>
+</tbody>
+</table>
+<p>以上是单个级别的一些介绍,当然还可以做raid组合,比如说RAID10,RAID01,可以先做几个个raid1,然后再将这几个raid1组合成raid0</p>
+<h4 id="软RAID管理工具mdadm"><a href="#软RAID管理工具mdadm" class="headerlink" title="软RAID管理工具mdadm"></a>软RAID管理工具mdadm</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mdadm:</span></span><br><span class="line">	-C /dev/md[0-9]:创建</span><br><span class="line">	-l level:指定RAID级别</span><br><span class="line">	-c size:指定chunk大小</span><br><span class="line">	-n:指定磁盘个数</span><br><span class="line">	-x:指定备用硬盘的个数</span><br><span class="line">	-D:查看设备</span><br><span class="line">	-f /dev/DEVICE:模拟损坏的硬盘</span><br><span class="line">	-r:将某个设备从RAID中移出</span><br><span class="line">	-a:向RAID中添加</span><br><span class="line">	-Ds:显示RAID元数据信息</span><br><span class="line">	-S /dev/md[0-9]:停用RAID设备,停用之前必须先取消设备挂载</span><br><span class="line">	-G:增加设备</span><br><span class="line">	--zero-superblock:清除分区中的RAID残留信息,应该在删除分区前清理</span><br><span class="line">/etc/mdadm.conf:配置文件,存放的是RAID设备的元数据,当停用RAID之后再启用必须有配置文件,否则无法启动</span><br><span class="line">/proc/mdstat:raid信息</span><br></pre></td></tr></table></figure>
+<h2 id="LVM"><a href="#LVM" class="headerlink" title="LVM"></a>LVM</h2><h4 id="简介-1"><a href="#简介-1" class="headerlink" title="简介:"></a>简介:</h4><p>相对于RAID,LVM是纯在软件环境下实现的,主要的工作模式是,将若干个磁盘或者分区声明为物理卷,然后将这些物理卷再组织成卷组,这个卷组就相当于是一块硬盘,然后再将卷组分出多块逻辑卷,然后进行分区使用,逻辑卷最大的优势在于他可以动态扩容和做快照,由于其抽象出了好多层,因此如果误删除了数据,在恢复上可能会有一定的困难,因此LVM在一些企业中还是没有被采用的,以下这张图片清晰的描述了逻辑卷和物理硬盘之间的关系</p>
+<p><img src="/images/lvm.png" alt=""></p>
+<p>因此逻辑卷的创建也是比较繁琐的,在使用时系统提供了以pv,vg,lv开头的若干个工具,分别来对物理卷,卷组,逻辑卷进行管理,以下对常用到的命令进行说明:</p>
+<h4 id="lvm管理工具"><a href="#lvm管理工具" class="headerlink" title="lvm管理工具"></a>lvm管理工具</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">pvcreate /dev/DEVICE ...:将分区创建为物理卷</span><br><span class="line">pvmove /dev/DEVICE:将物理卷中的空间移动到其他地方</span><br><span class="line">pvremove /dev/DEVICE:移出某个物理卷</span><br><span class="line"></span><br><span class="line">vgcreate vg_name /dev/DEVICE ...:将物理卷加入卷组</span><br><span class="line">	-s:指定PE大小,会以PE为单位分配给逻辑卷</span><br><span class="line">vgextend vg_name /dev/DEVICE ... :扩展卷组</span><br><span class="line">vgreduce vg_name  /dev/DEVICE:把某个物理卷移出卷组</span><br><span class="line">vgrename old_name new_name:为卷组改名</span><br><span class="line">vgchange -an vg_name:禁用卷组</span><br><span class="line">	-ay:激活卷组</span><br><span class="line">vgexport vg_name:将卷组变成导出状态</span><br><span class="line">vgimport:导入卷组</span><br><span class="line"></span><br><span class="line">lvcreate [OPTIONS]... vg_name:创建逻辑卷</span><br><span class="line">	-n:指定逻辑卷名称	</span><br><span class="line">	-L:指定大小,以容量为单位,也并非实际大小,而是最接近的PE个数的大小</span><br><span class="line">	-l:指定大小,以PE为单位,k可以指定相对VG,FREE,ORIGIN的百分比</span><br><span class="line">	-s:创建快照,通过快照恢复之后的逻辑卷是不可以再次创建快照的</span><br><span class="line">	-p r:指定属性为只读</span><br><span class="line">lvextend [OPTION]... vg_name:扩展逻辑卷空间,扩展之后应该使用resize2fs或者xfs_</span><br><span class="line">	-l [+]size:增加到size,+size:增加size 按&#123;VG|LV|PVS|FREE|ORIGIN&#125;的百分比</span><br><span class="line">	-L [+]size:扩展大小 按大小[bBsSkKmMgGtTpPeE]</span><br><span class="line">	-r:扩展的同时同步文件系统</span><br><span class="line">lvrename /old/dev/path /new/dev/path:修改逻辑卷的名称,注意,要写lv设备的路径,先写原名再写新名</span><br><span class="line">ext系列文件系统可以缩小,xfs不可以</span><br></pre></td></tr></table></figure>
+<h4 id="快照"><a href="#快照" class="headerlink" title="快照:"></a>快照:</h4><p>​    保存了逻辑卷的某个时间点的状态,创建最初只是创建了一个空的逻辑卷,因此创建速度非常快,之后当有文件被修改时,先将被修改的那个文件复制到快照逻辑卷中,然后再修改,如果没有修改过的,虽然在快照中也能看见,但其实读的是原来逻辑卷中的内容,就像进程的写时复制一样,虽然这样很好,但是不太建议直接用快照来做备份,因为快照和原来的数据都存放在同一个设备上,这个设备一旦坏了,那快照也是白玩,因此正确玩法是先做快照,将快照中的内容保存到其他地方,然后再将快照删除,快照的创建和普通逻辑卷创建一样,只不过需要加一个-s的参数</p>
+<p><strong>示例</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">创建:</span><br><span class="line"><span class="comment"># lvcreate -n lv_name_snapshot -s -L size -p r /dev/vg_name/lv_name</span></span><br><span class="line">恢复:</span><br><span class="line"><span class="comment"># lvconvert --merge /dev/vg_name/lv_snopshot:还原快照,还原成功后快照被自动删除</span></span><br></pre></td></tr></table></figure>
+<h4 id="逻辑卷缩减-迁移的操作"><a href="#逻辑卷缩减-迁移的操作" class="headerlink" title="逻辑卷缩减,迁移的操作"></a>逻辑卷缩减,迁移的操作</h4><pre><code>缩减逻辑卷的步骤:
+    1.卸载需要缩减的逻辑卷
+    2.检测修复文件系统fsck -f /dev/DEVICE
+    3.缩减文件系统:resize2fs /dev/DEVICE size
+    4.lvreduce -L SIZE /dev/DEVICE
+    5.缩减完成,重新挂载
+    注意:xfs文件系统最好不要做缩减
+迁移逻辑卷
+    1.将数据迁移到最少的硬盘上pvremove
+    2.将空物理卷从卷组中移除,vgreduce vg_name /dev/DEVICE
+    3.将空的物理卷变成普通硬盘或分区,pvremove /dev/DEVICE
+    4.禁用需要导出的卷组 vgchange -an vg_name
+    5.将需要迁移的硬盘变成导出状态vgexport vg_name
+    6.将硬盘插到其他的机器上,使用vgimport vg_name导入
+</code></pre>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux-磁盘/" rel="tag"># linux,磁盘</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/11/test/" rel="next" title="linux用户管理">
+                <i class="fa fa-chevron-left"></i> linux用户管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/dabai.jpg"
+                alt="朱大白" />
+            
+              <p class="site-author-name" itemprop="name">朱大白</p>
+              <p class="site-description motion-element" itemprop="description">试图不断调战自己舒适区的人</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zhudabai" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:uuidxiaozhu@163.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RAID"><span class="nav-number">1.</span> <span class="nav-text">RAID</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#简介"><span class="nav-number">1.0.1.</span> <span class="nav-text">简介:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RAID级别"><span class="nav-number">1.0.2.</span> <span class="nav-text">RAID级别:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#软RAID管理工具mdadm"><span class="nav-number">1.0.3.</span> <span class="nav-text">软RAID管理工具mdadm</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LVM"><span class="nav-number">2.</span> <span class="nav-text">LVM</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#简介-1"><span class="nav-number">2.0.1.</span> <span class="nav-text">简介:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lvm管理工具"><span class="nav-number">2.0.2.</span> <span class="nav-text">lvm管理工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#快照"><span class="nav-number">2.0.3.</span> <span class="nav-text">快照:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#逻辑卷缩减-迁移的操作"><span class="nav-number">2.0.4.</span> <span class="nav-text">逻辑卷缩减,迁移的操作</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">朱大白</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by"><a class="theme-link" target="_blank" href="https://zhudabai.github.io">朱大白</a> 雾里看花</div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.2.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
