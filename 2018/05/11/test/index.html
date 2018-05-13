@@ -103,15 +103,16 @@
 
 
   <meta name="description" content="Linux用户管理Linux用户管理及一些操作">
+<meta name="keywords" content="Linux,用户">
 <meta property="og:type" content="article">
-<meta property="og:title" content="test">
+<meta property="og:title" content="linux用户管理">
 <meta property="og:url" content="http://yoursite.com/2018/05/11/test/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="Linux用户管理Linux用户管理及一些操作">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-05-11T11:17:19.634Z">
+<meta property="og:updated_time" content="2018-05-13T04:35:19.391Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="test">
+<meta name="twitter:title" content="linux用户管理">
 <meta name="twitter:description" content="Linux用户管理Linux用户管理及一些操作">
 
 
@@ -129,7 +130,7 @@
   };
 </script>
 
-  <title>test | Hexo</title>
+  <title>linux用户管理 | Hexo</title>
   
 
 
@@ -224,49 +225,17 @@
         
         
           
+          <li class="menu-item menu-item-linux基础">
+    <a href="/categories/linux基础" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-linux基础"></i> <br />linux基础</a>
+  </li>
+        
+        
+        
+          
           <li class="menu-item menu-item-about">
     <a href="/about/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-关于"></i> <br />关于</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
-    <a href="/tags/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-关键字"></i> <br />标签</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
-    <a href="/categories/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
-    <a href="/archives/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-归档"></i> <br />归档</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-schedule">
-    <a href="/schedule/" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
-  </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-sitemap">
-    <a href="/sitemap.xml" rel="section">
-      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />站点地图</a>
   </li>
         
         
@@ -342,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">test
+          <h1 class="post-title" itemprop="name headline">linux用户管理
               
             
           </h1>
@@ -367,16 +336,46 @@
                 
               
 
-              <time title="创建时间：2018-05-11 19:15:00 / 修改时间：19:17:19" itemprop="dateCreated datePublished" datetime="2018-05-11T19:15:00+08:00">2018-05-11</time>
+              <time title="创建时间：2018-05-11 19:15:00" itemprop="dateCreated datePublished" datetime="2018-05-11T19:15:00+08:00">2018-05-11</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-05-13 12:35:19" itemprop="dateModified" datetime="2018-05-13T12:35:19+08:00">2018-05-13</time>
               
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/linux基础/" itemprop="url" rel="index"><span itemprop="name">linux基础</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -408,10 +407,7 @@
         <h2 id="Linux用户管理"><a href="#Linux用户管理" class="headerlink" title="Linux用户管理"></a>Linux用户管理</h2><p>Linux用户管理及一些操作<br><a id="more"></a></p>
 <h4 id="Linux创建用户的过程"><a href="#Linux创建用户的过程" class="headerlink" title="Linux创建用户的过程"></a>Linux创建用户的过程</h4><p><u><strong>以下内容为仅使用useradd user_name创建用户时的大概过程,这里写的先后顺序不代表系统在执行时的先后顺序,当然以下的这段内容其实也是是本人根据实际操作通过系统返回的效果得出的,也并不代表系统就是这样执行的:</strong></u></p>
 <ol>
-<li><p>读取/etc/default/useradd文件,获取用户的家目录位置,使用的shell,以及是否进行用户邮箱的创建</p>
-<p>​</p>
-<p>等信息</p>
-<p>. 读取/etc/login.defs文件,获取用户的uid范围gid范围,以及用户的密码有效期,用户有效期的值等    </p>
+<li><p>读取/etc/default/useradd文件,获取用户的家目录位置,使用的shell,以及是否进行用户邮箱的创建等信息,读取/etc/login.defs文件,获取用户的uid范围gid范围,以及用户的密码有效期,用户有效期的值等    </p>
 </li>
 <li><p>根据以上两个文件创建在/etc/group文件创建一条记录,该记录是组信息记录,(组名:组密码:组id:组成员)大致内容为组名,组密码,组id,组成员(不包括将此组作为主组的用户),组名和用户名相同,如果该组已经存在则创建失败,密码为x表示密码没有存在这个文件中,而是被存在了/etc/gshadow文件中,即其他用户无法将此组切换为临时主组,组id,正常情况下会取上一个最大的id然后加1作为该组的id,组成员默认为空</p>
 </li>
@@ -593,6 +589,14 @@ reserved field:                    保留字段
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/用户/" rel="tag"># 用户</a>
+          
+        </div>
+      
 
       
       
@@ -602,8 +606,8 @@ reserved field:                    保留字段
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/11/article-title/" rel="next" title=" linux进程管理">
-                <i class="fa fa-chevron-left"></i>  linux进程管理
+              <a href="/2018/05/11/article-title/" rel="next" title="linux进程管理">
+                <i class="fa fa-chevron-left"></i> linux进程管理
               </a>
             
           </div>
@@ -686,7 +690,7 @@ reserved field:                    保留字段
               
                 <div class="site-state-item site-state-posts">
                 
-                  <a href="/archives/">
+                  <a href="/archives">
                 
                     <span class="site-state-item-count">2</span>
                     <span class="site-state-item-name">日志</span>
@@ -695,7 +699,37 @@ reserved field:                    保留字段
               
 
               
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
 
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
               
             </nav>
           
@@ -776,15 +810,11 @@ reserved field:                    保留字段
 
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+  <div class="powered-by"><a class="theme-link" target="_blank" href="https://zhudabai.github.io">朱大白</a> 雾里看花</div>
 
 
 
-  <span class="post-meta-divider">|</span>
 
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.2.0</div>
 
 
 
