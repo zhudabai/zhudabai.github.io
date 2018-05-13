@@ -116,7 +116,7 @@
 <meta property="og:image" content="http://yoursite.com/images/raid5.png">
 <meta property="og:image" content="http://yoursite.com/images/raid6.png">
 <meta property="og:image" content="http://yoursite.com/images/lvm.png">
-<meta property="og:updated_time" content="2018-05-13T13:39:55.686Z">
+<meta property="og:updated_time" content="2018-05-13T13:45:29.784Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RAID&amp;LVM">
 <meta name="twitter:description" content="对raid级别进行介绍,mdadm工具,逻辑卷及其管理工具">
@@ -343,7 +343,7 @@
                 
               
 
-              <time title="创建时间：2018-05-13 19:14:00 / 修改时间：21:39:55" itemprop="dateCreated datePublished" datetime="2018-05-13T19:14:00+08:00">2018-05-13</time>
+              <time title="创建时间：2018-05-13 19:14:00 / 修改时间：21:45:29" itemprop="dateCreated datePublished" datetime="2018-05-13T19:14:00+08:00">2018-05-13</time>
             
 
             
@@ -465,11 +465,15 @@
 </table>
 <p>以上是单个级别的一些介绍,当然还可以做raid组合,比如说RAID10,RAID01,可以先做几个个raid1,然后再将这几个raid1组合成raid0</p>
 <h4 id="软RAID管理工具mdadm"><a href="#软RAID管理工具mdadm" class="headerlink" title="软RAID管理工具mdadm"></a>软RAID管理工具mdadm</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mdadm:</span></span><br><span class="line">	-C /dev/md[0-9]:创建</span><br><span class="line">	-l level:指定RAID级别</span><br><span class="line">	-c size:指定chunk大小</span><br><span class="line">	-n:指定磁盘个数</span><br><span class="line">	-x:指定备用硬盘的个数</span><br><span class="line">	-D:查看设备</span><br><span class="line">	-f /dev/DEVICE:模拟损坏的硬盘</span><br><span class="line">	-r:将某个设备从RAID中移出</span><br><span class="line">	-a:向RAID中添加</span><br><span class="line">	-Ds:显示RAID元数据信息</span><br><span class="line">	-S /dev/md[0-9]:停用RAID设备,停用之前必须先取消设备挂载</span><br><span class="line">	-G:增加设备</span><br><span class="line">	--zero-superblock:清除分区中的RAID残留信息,应该在删除分区前清理</span><br><span class="line">/etc/mdadm.conf:配置文件,存放的是RAID设备的元数据,当停用RAID之后再启用必须有配置文件,否则无法启动</span><br><span class="line">/proc/mdstat:raid信息</span><br></pre></td></tr></table></figure>
-<h2 id="LVM"><a href="#LVM" class="headerlink" title="LVM"></a>LVM</h2><h4 id="简介-1"><a href="#简介-1" class="headerlink" title="简介:"></a>简介:</h4><p>相对于RAID,LVM是纯在软件环境下实现的,主要的工作模式是,将若干个磁盘或者分区声明为物理卷,然后将这些物理卷再组织成卷组,这个卷组就相当于是一块硬盘,然后再将卷组分出多块逻辑卷,然后进行分区使用,逻辑卷最大的优势在于他可以动态扩容和做快照,由于其抽象出了好多层,因此如果误删除了数据,在恢复上可能会有一定的困难,因此LVM在一些企业中还是没有被采用的,以下这张图片清晰的描述了逻辑卷和物理硬盘之间的关系</p>
+<h2 id="LVM"><a href="#LVM" class="headerlink" title="LVM"></a>LVM</h2><h4 id="简介-1"><a href="#简介-1" class="headerlink" title="简介:"></a>简介:</h4><blockquote>
+<p>相对于RAID,LVM是纯在软件环境下实现的,主要的工作模式是,将若干个磁盘或者分区声明为物理卷,然后将这些物理卷再组织成卷组,这个卷组就相当于是一块硬盘,然后再将卷组分出多块逻辑卷,然后进行分区使用,逻辑卷最大的优势在于他可以动态扩容和做快照,由于其抽象出了好多层,因此如果误删除了数据,在恢复上可能会有一定的困难,因此LVM在一些企业中还是没有被采用的,以下这张图片清晰的描述了逻辑卷和物理硬盘之间的关系</p>
+</blockquote>
 <p><img src="/images/lvm.png" alt=""></p>
 <p>因此逻辑卷的创建也是比较繁琐的,在使用时系统提供了以pv,vg,lv开头的若干个工具,分别来对物理卷,卷组,逻辑卷进行管理,以下对常用到的命令进行说明:</p>
 <h4 id="lvm管理工具"><a href="#lvm管理工具" class="headerlink" title="lvm管理工具"></a>lvm管理工具</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">pvcreate /dev/DEVICE ...:将分区创建为物理卷</span><br><span class="line">pvmove /dev/DEVICE:将物理卷中的空间移动到其他地方</span><br><span class="line">pvremove /dev/DEVICE:移出某个物理卷</span><br><span class="line"></span><br><span class="line">vgcreate vg_name /dev/DEVICE ...:将物理卷加入卷组</span><br><span class="line">	-s:指定PE大小,会以PE为单位分配给逻辑卷</span><br><span class="line">vgextend vg_name /dev/DEVICE ... :扩展卷组</span><br><span class="line">vgreduce vg_name  /dev/DEVICE:把某个物理卷移出卷组</span><br><span class="line">vgrename old_name new_name:为卷组改名</span><br><span class="line">vgchange -an vg_name:禁用卷组</span><br><span class="line">	-ay:激活卷组</span><br><span class="line">vgexport vg_name:将卷组变成导出状态</span><br><span class="line">vgimport:导入卷组</span><br><span class="line"></span><br><span class="line">lvcreate [OPTIONS]... vg_name:创建逻辑卷</span><br><span class="line">	-n:指定逻辑卷名称	</span><br><span class="line">	-L:指定大小,以容量为单位,也并非实际大小,而是最接近的PE个数的大小</span><br><span class="line">	-l:指定大小,以PE为单位,k可以指定相对VG,FREE,ORIGIN的百分比</span><br><span class="line">	-s:创建快照,通过快照恢复之后的逻辑卷是不可以再次创建快照的</span><br><span class="line">	-p r:指定属性为只读</span><br><span class="line">lvextend [OPTION]... vg_name:扩展逻辑卷空间,扩展之后应该使用resize2fs或者xfs_</span><br><span class="line">	-l [+]size:增加到size,+size:增加size 按&#123;VG|LV|PVS|FREE|ORIGIN&#125;的百分比</span><br><span class="line">	-L [+]size:扩展大小 按大小[bBsSkKmMgGtTpPeE]</span><br><span class="line">	-r:扩展的同时同步文件系统</span><br><span class="line">lvrename /old/dev/path /new/dev/path:修改逻辑卷的名称,注意,要写lv设备的路径,先写原名再写新名</span><br><span class="line">ext系列文件系统可以缩小,xfs不可以</span><br></pre></td></tr></table></figure>
-<h4 id="快照"><a href="#快照" class="headerlink" title="快照:"></a>快照:</h4><p>​    保存了逻辑卷的某个时间点的状态,创建最初只是创建了一个空的逻辑卷,因此创建速度非常快,之后当有文件被修改时,先将被修改的那个文件复制到快照逻辑卷中,然后再修改,如果没有修改过的,虽然在快照中也能看见,但其实读的是原来逻辑卷中的内容,就像进程的写时复制一样,虽然这样很好,但是不太建议直接用快照来做备份,因为快照和原来的数据都存放在同一个设备上,这个设备一旦坏了,那快照也是白玩,因此正确玩法是先做快照,将快照中的内容保存到其他地方,然后再将快照删除,快照的创建和普通逻辑卷创建一样,只不过需要加一个-s的参数</p>
+<h4 id="快照"><a href="#快照" class="headerlink" title="快照:"></a>快照:</h4><blockquote>
+<p>​    保存了逻辑卷的某个时间点的状态,创建最初只是创建了一个空的逻辑卷,因此创建速度非常快,之后当有文件被修改时,先将被修改的那个文件复制到快照逻辑卷中,然后再修改,如果没有修改过的,虽然在快照中也能看见,但其实读的是原来逻辑卷中的内容,就像进程的写时复制一样,虽然这样很好,但是不太建议直接用快照来做备份,因为快照和原来的数据都存放在同一个设备上,这个设备一旦坏了,那快照也是白玩,因此正确玩法是先做快照,将快照中的内容保存到其他地方,然后再将快照删除,快照的创建和普通逻辑卷创建一样,只不过需要加一个-s的参数</p>
+</blockquote>
 <p><strong>示例</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">创建:</span><br><span class="line"><span class="comment"># lvcreate -n lv_name_snapshot -s -L size -p r /dev/vg_name/lv_name</span></span><br><span class="line">恢复:</span><br><span class="line"><span class="comment"># lvconvert --merge /dev/vg_name/lv_snopshot:还原快照,还原成功后快照被自动删除</span></span><br></pre></td></tr></table></figure>
 <h4 id="逻辑卷缩减-迁移的操作"><a href="#逻辑卷缩减-迁移的操作" class="headerlink" title="逻辑卷缩减,迁移的操作"></a>逻辑卷缩减,迁移的操作</h4><pre><code>缩减逻辑卷的步骤:
@@ -617,8 +621,6 @@
                 <div class="site-state-item site-state-categories">
                   <a href="/categories/index.html">
                     
-                    
-                      
                     
                       
                     
