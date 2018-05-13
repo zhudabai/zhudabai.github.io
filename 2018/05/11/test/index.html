@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.2.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Linux用户管理Linux用户管理及一些操作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="test">
+<meta property="og:url" content="http://yoursite.com/2018/05/11/test/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Linux用户管理Linux用户管理及一些操作">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-05-11T11:17:19.634Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="test">
+<meta name="twitter:description" content="Linux用户管理Linux用户管理及一些操作">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/11/test/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>test | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-主页"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-关于"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-关键字"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-归档"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-schedule">
+    <a href="/schedule/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />日程表</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-sitemap">
+    <a href="/sitemap.xml" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />站点地图</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/11/test/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="朱大白">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/dabai.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">test
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-05-11 19:15:00 / 修改时间：19:17:19" itemprop="dateCreated datePublished" datetime="2018-05-11T19:15:00+08:00">2018-05-11</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Linux用户管理"><a href="#Linux用户管理" class="headerlink" title="Linux用户管理"></a>Linux用户管理</h2><p>Linux用户管理及一些操作<br><a id="more"></a></p>
+<h4 id="Linux创建用户的过程"><a href="#Linux创建用户的过程" class="headerlink" title="Linux创建用户的过程"></a>Linux创建用户的过程</h4><p><u><strong>以下内容为仅使用useradd user_name创建用户时的大概过程,这里写的先后顺序不代表系统在执行时的先后顺序,当然以下的这段内容其实也是是本人根据实际操作通过系统返回的效果得出的,也并不代表系统就是这样执行的:</strong></u></p>
+<ol>
+<li><p>读取/etc/default/useradd文件,获取用户的家目录位置,使用的shell,以及是否进行用户邮箱的创建</p>
+<p>​</p>
+<p>等信息</p>
+<p>. 读取/etc/login.defs文件,获取用户的uid范围gid范围,以及用户的密码有效期,用户有效期的值等    </p>
+</li>
+<li><p>根据以上两个文件创建在/etc/group文件创建一条记录,该记录是组信息记录,(组名:组密码:组id:组成员)大致内容为组名,组密码,组id,组成员(不包括将此组作为主组的用户),组名和用户名相同,如果该组已经存在则创建失败,密码为x表示密码没有存在这个文件中,而是被存在了/etc/gshadow文件中,即其他用户无法将此组切换为临时主组,组id,正常情况下会取上一个最大的id然后加1作为该组的id,组成员默认为空</p>
+</li>
+<li><p>在/etc/gshadow中创建一条记录,(组名:组密码:组管理员:组成员)大概内容为组名,组密码,组管理员,组成员,组密码格式为使用三个\$符号分割三组内容,第一个\$后表示的是加密的类型用一个数字表示,第二个\$后面是密码加密时用的盐即随机数,加了这个盐之后即使两个用户的密码相同那么最后得到的加密字符串也是不同的,然后\$后面是密码加密后的字符串!即用户无法通过newgrp命令临时切换该组为主组,组管理员默认为空可以使用gpasswd的-A选项指定管理员员,组成默认也为空,组成员和/etc/group中的组成员内容相同,添加组成员可以使用gpasswd命令的-a选项添加,-d选项删除,当然必须有操作权限,即组管理员和root</p>
+</li>
+<li><p>在/etc/passwd中创建一条记录,(用户:用户密码:uid:gid:描述信息:家目录:默认shell)该记录是用户信息记录,大致内容为,用户名,密码,uid,gid,描述信息,家目录,默认shell,用户名即创建用户时指定的用户名,passwd为x表示密码存放在了/etc/shadow/这个文件中,由于/etc/passwd文件普通用户也可以读取到,所以特将密码存到另外的文件中当然是可以用pwconv和pwuncounv命令改变密码存位置的 uid为系统根据当前用户id分配情况分配一个id,gid为步骤3中创建组信息时的gid,描述信息默认为空,可以使用chfn命令写入描述信息,家目录为从/etc/default/useradd中读取的家目录的路径然后在其下创建一个和user_name同名的目录,默认shell也是从/etc/default/useradd中读取的,默认为/bin/bash</p>
+</li>
+<li><p>在/etc/shadow中创建一条记录,(用户名:密码:上一次修改密码的时间:修改密码后几天内不允许再次修改:密码有效期:密码过期前提下的天数:宽限期:用户有效期:保留字段)该记录主要存放了,用户名,密码,上一次修改密码的时间,该时间的格式为从1970年1月1日到修改日期所经过的天数,修改密码后几天内不可以修改密码,密码的有效期,密码过期前的提醒的天数,宽限的期限即密码过期后还可以登录的天数,用户的有效期即过了这个时间后用户就会被锁定,以上几个有效期相关的时间可以使用chage修改保留字段可能以后的系统会添加其他功能就可以使用这个字段了</p>
+</li>
+<li><p>创建家目录,并且将/etc/skel/中的文件拷贝到用户的家目录下,这些文件主要的作用是初始化登录环境,设置某些系统变量的</p>
+</li>
+<li><p>在邮箱目录中创建邮箱文件文件名和用户名同名</p>
+</li>
+</ol>
+<p>以上四个文件(passwd,group,shadow,gshadow)的格式为:分割的字符串</p>
+<p>如果家目录不存在,则登录系统后的当前目录是/</p>
+<p>系统必须有0id的用户</p>
+<h4 id="用户-组介绍"><a href="#用户-组介绍" class="headerlink" title="用户,组介绍"></a>用户,组介绍</h4><p><strong>用户(user)</strong></p>
+<p>管理员:    root,0</p>
+<p>通用户:    1-65535<br>    系统用户:1-499,1-999(CentOS7.x),主要是对一些服务，应用等使用的</p>
+<p><strong>组(group)</strong></p>
+<p>管理员组 root,0<br>普通组:<br>    系统组:1-499,1-999(CentOS7.x)<br>    普通组:500+,1000+(CentOS7.x)<br>Linux默认创建一个用户就会创建一个相同名称的组,且这个用户默认属于这个组<br>进程所能够访问的文件由创建进程的用户权限决定<br>用户和组可以是多对多的关系</p>
+<p><strong>Linux组的类别</strong></p>
+<p>主要组(primary group)<br>        用户至少属于一个组,必须有一个主组<br>    附加组(supplementary group)<br>        一个用户可以属于0个或多个附加组</p>
+<h4 id="用户和组的主要配置文件"><a href="#用户和组的主要配置文件" class="headerlink" title="用户和组的主要配置文件"></a>用户和组的主要配置文件</h4><ul>
+<li><strong>/etc/passwd</strong>:(用户信息)</li>
+</ul>
+<p>​        name:password:UID:GID:GECOS:directory:shell<br>        GECOS:描述字段</p>
+<ul>
+<li><p><strong>/etc/group</strong>:(组信息)</p>
+<p>​    group_name</p>
+<pre><code>password:                        普通用户也可以自己把自己加到某个组中,需要使用这个密码
+GID
+user_list:                        附加组是该组的user_name
+</code></pre></li>
+<li><p><strong>/etc/shadow</strong>:(用户口令)</p>
+<p>​    login name:                        用户名</p>
+<pre><code>encrypted password:                !!表示账户锁定,新建的账号不能登录是锁定状态
+    密码的格式:$加密算法$盐$加密后的字符串
+    加密算法:1:md5,6:sha512
+    修改加密算法    
+</code></pre><p>​            # authconfig –passalgo={sha512|…} –update</p>
+<p>​    date of last password change:</p>
+<pre><code>上一次修改密码的时间,格式为距离1970年到现在的天数,如果值为0系统在下次登录时提醒你改密码
+</code></pre><p>​    minimum password age:            最短的密码生命期,最短口令有效期,单位为天,0为随时可以改</p>
+<pre><code>maximum password age:            口令有效期
+password warning period:            口令过期前提示时间
+password inactivity period:        宽限期,过期后的时限,过期之后再过了这几天就被系统锁定了
+account expiration date:            账号的有效期
+reserved field:                    保留字段
+</code></pre></li>
+<li><p><strong>/etc/gshadow</strong>:(组口令)</p>
+<p> group name                         组名<br> encrypted password                加密后的密码<br> administrators:                    组管理员<br> members:                        组成员</p>
+</li>
+</ul>
+<h4 id="用户和组的管理命令"><a href="#用户和组的管理命令" class="headerlink" title="用户和组的管理命令"></a>用户和组的管理命令</h4><ul>
+<li><p><strong>用户管理</strong></p>
+<p># useradd:(添加用户)</p>
+<p>| 选项 | 作用                                                         |<br>| :— | ———————————————————— |<br>| -o   | 强制创建已存在的id的用户,使用这种用户登录系统时虽然两个账号都能登录但是系统在登录后会以在passwd文件中靠前的用户信息作为用户等信息 |<br>| -u   | 指定uid                                                      |<br>| -g   | 指定gid或者组名                                              |<br>| -G   | 指定附加组id                                                 |<br>| -d   | 指定家目录                                                   |<br>| -s   | 指定shell,一般服务所用的账号都应该将shell设置为/sbin/nologin即不允许该用户登录系统 |<br>| -r   | 创建系统用户                                                 |<br>| -m   | 创建系统用户的时候创建家目录                                 |<br>| -M   | 不创建家目录                                                 |<br>| -D   | 此选项不是在创建用户的时候使用的,主要的作用是使用该命令去查看,修改配置文件/etc/default/useradd |<br>| -N   | 不创建该用户名相同的组为主组而将其加入到配置文件指定的组中默认是user组 |</p>
+</li>
+</ul>
+<p># usermod:修改用户</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-u</td>
+<td>更改uid</td>
+</tr>
+<tr>
+<td>-g</td>
+<td>指定新的主组</td>
+</tr>
+<tr>
+<td>-G</td>
+<td>指定附加组,默认是覆盖行为,如果要追加要使用-a选项””为将附加组设为空,或者将该用户设为附加组,这样覆盖了其他所有的附加组</td>
+</tr>
+<tr>
+<td>-l</td>
+<td>修改组名,new_name old_name</td>
+</tr>
+<tr>
+<td>-d</td>
+<td>更换家目录,需要创建新的家目录并且移动文件时需要-m选项</td>
+</tr>
+<tr>
+<td>-L</td>
+<td>锁定用户</td>
+</tr>
+<tr>
+<td>-U</td>
+<td>解锁用户</td>
+</tr>
+<tr>
+<td>-e</td>
+<td>指定过期日期</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>设置宽限期</td>
+</tr>
+</tbody>
+</table>
+<p># userdel:(删除用户的同同时也会尝试去删除他的主组)</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-r</td>
+<td>删除家目录以及邮箱文件</td>
+</tr>
+</tbody>
+</table>
+<p># passwd:修改用户密码</p>
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-e</td>
+<td>立即过期用户口令,且用户再次登录时必须设置一个比较复杂的密码</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p><strong>组管理:</strong></p>
+<pre><code>\# groupadd (添加组)
+-g:指定gid
+-r:创建系统组
+</code></pre><p>  # groupmod:</p>
+<pre><code>-n new_name old_name:改名
+-g:指定新的id
+</code></pre><p>  # groupdel:如果某个组是某个账号的主组,那这个组在账号存在的情况下不能删除<br>  # gpasswd:</p>
+<pre><code>-a user 将某个账号加入某个组
+-d 从该组删除某个账号
+-A 设置组管理员
+</code></pre></li>
+</ul>
+<h4 id="其他和用户-组相关的命令"><a href="#其他和用户-组相关的命令" class="headerlink" title="其他和用户,组相关的命令"></a>其他和用户,组相关的命令</h4><p>​    # groupmems:允许组管理员管理其组成员,查看将该组设置为附加组的组成员<br>        -g:指定组名<br>        -l:列出组员列表<br>        -d:将指定用户踢出该组<br>        -a:为该组添加用户<br>        -p:清除该组中所有成员</p>
+<pre><code># groups:查看账号属于哪个组,主组和附加组
+# chfn:为用户添加描述信息
+# finger:查看用户信息
+# chsh -s /bin/bash user_name:更用户的默认shell,不加用户为修改当前用户shell
+# newusers /path/to/user_list 批量创建用户
+# chpasswd &lt; /path/to/usre:pass_list:批量修改用户密码pass_list格式为user_name:password
+# chage 修改用户有效期相关信息,交互式修改各个参数
+    -d 0 user_name:立即过期用,且下次登录会强制用户改一个复杂度较高的密码
+</code></pre><p>​    # newgrp 临时切换当前用户的主组,可以使用exit命令退出,仍然使用之前的主组<br>    # authconfig –passalgo={sha512|…} –update 修改加密算法<br>    # getent passwd [user_name]:只显示某个user的信息,<br>    # su:切换用户<br>        -c:以某个用户身份执行命令<br>         完全切换<br>             # su - user_name<br>             # su - 直接切换到root用户,当然非root用户需要密码才可以切换<br>         不完全切换:<br>             # su user_name<br>         完全切换就和新用户登录一样,而不完全切换则不同,shell的某些变量还保存的是之前用户的信息<br>        而且目录也不会切换到当前用户的家目录<br>    # id:显示用户的id信息以及判断该用户是否存在<br>        -u:显示uid<br>        -g:显示gid<br>        -G:显示附加组的id<br>        -n:显示名称<br>    # vipw == vi /etc/passwd<br>    # vigr == vi /etc/group<br>        修改了文件后vipw,vigr可以使用相关选项同步其他文件<br>    # pwck     检查/etc/passwd,/etc/shadow配置文件<br>    # grpck 检查/etc/group,/etc/gshadow配置文件<br>    # pwconv:将密码存入shadow文件<br>    # pwunconv:将密码存入passwd文件<br>    # grpconv:将组密码存入gshadow文件<br>    # grpuncoun:将组密码存入group文件</p>
+<h4 id="相关的其他配置文件"><a href="#相关的其他配置文件" class="headerlink" title="相关的其他配置文件"></a>相关的其他配置文件</h4><p>​    /etc/skel:创建用户时会将这个目录里的文件复制到用户的家目录中,创建用户时的家目录模板文件夹<br>    /etc/default/useradd:主要定义了用户家目录的位置,shell类型等<br>    /etc/login.defs:主要定义了用户的uid起始,已经账号,密码有效期等信息</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/11/article-title/" rel="next" title=" linux进程管理">
+                <i class="fa fa-chevron-left"></i>  linux进程管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/dabai.jpg"
+                alt="朱大白" />
+            
+              <p class="site-author-name" itemprop="name">朱大白</p>
+              <p class="site-description motion-element" itemprop="description">试图不断调战自己舒适区的人</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zhudabai" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:uuidxiaozhu@163.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux用户管理"><span class="nav-number">1.</span> <span class="nav-text">Linux用户管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Linux创建用户的过程"><span class="nav-number">1.0.1.</span> <span class="nav-text">Linux创建用户的过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用户-组介绍"><span class="nav-number">1.0.2.</span> <span class="nav-text">用户,组介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用户和组的主要配置文件"><span class="nav-number">1.0.3.</span> <span class="nav-text">用户和组的主要配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用户和组的管理命令"><span class="nav-number">1.0.4.</span> <span class="nav-text">用户和组的管理命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他和用户-组相关的命令"><span class="nav-number">1.0.5.</span> <span class="nav-text">其他和用户,组相关的命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相关的其他配置文件"><span class="nav-number">1.0.6.</span> <span class="nav-text">相关的其他配置文件</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">朱大白</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Gemini</a> v6.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.2.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
