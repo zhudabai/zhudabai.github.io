@@ -102,22 +102,22 @@
 
 
 
-  <meta name="description" content="grep​    全称:Global search REgular expression and Print out the line文本过滤工具,按行显示出含有某个特定字符的工具,该工具最大的特点肯定是支持正则表达式,他还有两个按名字上来看算是一奶同胞的兄弟,egrep和fgrep,egrpe支持扩展正则表达式,而fgrep就不同了,他不支持正则表达式,由于grep提供了两个选项-F和-E分别可">
+  <meta name="description" content="Global search REgular expression and Print out the line文本过滤工具,英文名REGEX,无论从从中文还是英文,我们好像都无法从字面上来解释这个名词,不过有我个人对正则的理解">
 <meta name="keywords" content="grep,正则表达式,文本处理三剑客">
 <meta property="og:type" content="article">
-<meta property="og:title" content="grep 和正则表达式">
+<meta property="og:title" content="grep和正则表达式">
 <meta property="og:url" content="http://yoursite.com/2018/05/10/grep-pattern/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="grep​    全称:Global search REgular expression and Print out the line文本过滤工具,按行显示出含有某个特定字符的工具,该工具最大的特点肯定是支持正则表达式,他还有两个按名字上来看算是一奶同胞的兄弟,egrep和fgrep,egrpe支持扩展正则表达式,而fgrep就不同了,他不支持正则表达式,由于grep提供了两个选项-F和-E分别可">
+<meta property="og:description" content="Global search REgular expression and Print out the line文本过滤工具,英文名REGEX,无论从从中文还是英文,我们好像都无法从字面上来解释这个名词,不过有我个人对正则的理解">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://yoursite.com/images/grep-01.png">
 <meta property="og:image" content="http://yoursite.com/images/grep-02.png">
 <meta property="og:image" content="http://yoursite.com/images/grep-03.png">
 <meta property="og:image" content="http://yoursite.com/images/grep-04.png">
-<meta property="og:updated_time" content="2018-05-17T10:54:35.056Z">
+<meta property="og:updated_time" content="2018-05-17T11:19:11.926Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="grep 和正则表达式">
-<meta name="twitter:description" content="grep​    全称:Global search REgular expression and Print out the line文本过滤工具,按行显示出含有某个特定字符的工具,该工具最大的特点肯定是支持正则表达式,他还有两个按名字上来看算是一奶同胞的兄弟,egrep和fgrep,egrpe支持扩展正则表达式,而fgrep就不同了,他不支持正则表达式,由于grep提供了两个选项-F和-E分别可">
+<meta name="twitter:title" content="grep和正则表达式">
+<meta name="twitter:description" content="Global search REgular expression and Print out the line文本过滤工具,英文名REGEX,无论从从中文还是英文,我们好像都无法从字面上来解释这个名词,不过有我个人对正则的理解">
 <meta name="twitter:image" content="http://yoursite.com/images/grep-01.png">
 
 
@@ -135,7 +135,7 @@
   };
 </script>
 
-  <title>grep 和正则表达式 | Hexo</title>
+  <title>grep和正则表达式 | Hexo</title>
   
 
 
@@ -316,7 +316,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">grep 和正则表达式
+          <h1 class="post-title" itemprop="name headline">grep和正则表达式
               
             
           </h1>
@@ -358,7 +358,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2018-05-17 18:54:35" itemprop="dateModified" datetime="2018-05-17T18:54:35+08:00">2018-05-17</time>
+                <time title="修改时间：2018-05-17 19:19:11" itemprop="dateModified" datetime="2018-05-17T19:19:11+08:00">2018-05-17</time>
               
             
           </span>
@@ -409,7 +409,8 @@
       
 
       
-        <h3 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h3><p>​    全称:Global search REgular expression and Print out the line文本过滤工具,按行显示出含有某个特定字符的工具,该工具最大的特点肯定是支持正则表达式,他还有两个按名字上来看算是一奶同胞的兄弟,egrep和fgrep,egrpe支持扩展正则表达式,而fgrep就不同了,他不支持正则表达式,由于grep提供了两个选项-F和-E分别可以完成fgrep和egrep的功能,所以这里仅讨论一下grep的用法</p>
+        <p>Global search REgular expression and Print out the line文本过滤工具,英文名REGEX,无论从从中文还是英文,我们好像都无法从字面上来解释这个名词,不过有我个人对正则的理解<br><a id="more"></a></p>
+<h3 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h3><p>​    全称:Global search REgular expression and Print out the line文本过滤工具,按行显示出含有某个特定字符的工具,该工具最大的特点肯定是支持正则表达式,他还有两个按名字上来看算是一奶同胞的兄弟,egrep和fgrep,egrpe支持扩展正则表达式,而fgrep就不同了,他不支持正则表达式,由于grep提供了两个选项-F和-E分别可以完成fgrep和egrep的功能,所以这里仅讨论一下grep的用法</p>
 <p>​    grep语法:<em>grep [OPTION]… PATTERN [FILE]…</em></p>
 <p>​    首先用一个最简单的例子展示一下这个工具的作用</p>
 <p><img src="/images/grep-01.png" alt=""></p>
