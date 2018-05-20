@@ -102,31 +102,25 @@
 
 
 
-  <meta name="description" content="有一少部分人人觉得这是装逼,而有些人则默默的使用他完成自己的种种文本处理工作,">
-<meta name="keywords" content="linux,vi,编辑器">
+  <meta name="description" content="首先,本文会介绍CentOS5的启动流程,接下来会对比CentOS5介绍CentOS6和CentOS7的启动流程,注意文中介绍的都是BIOS+MBR格式分区的启动方式">
+<meta name="keywords" content="linux,系统启动">
 <meta property="og:type" content="article">
-<meta property="og:title" content="vi编辑器">
-<meta property="og:url" content="http://zhudabai.github.io/2018/05/17/vi-vim/index.html">
+<meta property="og:title" content="CentOS系列操作系统启动">
+<meta property="og:url" content="http://zhudabai.github.io/2018/05/20/System-Start/index.html">
 <meta property="og:site_name" content="无聊,放牛">
-<meta property="og:description" content="有一少部分人人觉得这是装逼,而有些人则默默的使用他完成自己的种种文本处理工作,">
+<meta property="og:description" content="首先,本文会介绍CentOS5的启动流程,接下来会对比CentOS5介绍CentOS6和CentOS7的启动流程,注意文中介绍的都是BIOS+MBR格式分区的启动方式">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://zhudabai.github.io/images/vi-vim-cheat-sheet-sch.gif">
-<meta property="og:image" content="http://zhudabai.github.io/images/vim01.png">
-<meta property="og:image" content="http://zhudabai.github.io/images/advanced1.png">
-<meta property="og:image" content="http://zhudabai.github.io/images/entry1.png">
-<meta property="og:image" content="http://zhudabai.github.io/images/morden1.png">
-<meta property="og:updated_time" content="2018-05-17T11:00:23.896Z">
+<meta property="og:updated_time" content="2018-05-20T07:46:57.992Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="vi编辑器">
-<meta name="twitter:description" content="有一少部分人人觉得这是装逼,而有些人则默默的使用他完成自己的种种文本处理工作,">
-<meta name="twitter:image" content="http://zhudabai.github.io/images/vi-vim-cheat-sheet-sch.gif">
+<meta name="twitter:title" content="CentOS系列操作系统启动">
+<meta name="twitter:description" content="首先,本文会介绍CentOS5的启动流程,接下来会对比CentOS5介绍CentOS6和CentOS7的启动流程,注意文中介绍的都是BIOS+MBR格式分区的启动方式">
 
 
 
 
 
 
-  <link rel="canonical" href="http://zhudabai.github.io/2018/05/17/vi-vim/"/>
+  <link rel="canonical" href="http://zhudabai.github.io/2018/05/20/System-Start/"/>
 
 
 
@@ -136,7 +130,7 @@
   };
 </script>
 
-  <title>vi编辑器 | 无聊,放牛</title>
+  <title>CentOS系列操作系统启动 | 无聊,放牛</title>
   
 
 
@@ -300,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://zhudabai.github.io/2018/05/17/vi-vim/">
+    <link itemprop="mainEntityOfPage" href="http://zhudabai.github.io/2018/05/20/System-Start/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="朱大白">
@@ -317,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">vi编辑器
+          <h1 class="post-title" itemprop="name headline">CentOS系列操作系统启动
               
             
           </h1>
@@ -342,7 +336,7 @@
                 
               
 
-              <time title="创建时间：2018-05-17 18:51:19 / 修改时间：19:00:23" itemprop="dateCreated datePublished" datetime="2018-05-17T18:51:19+08:00">2018-05-17</time>
+              <time title="创建时间：2018-05-20 13:26:07 / 修改时间：15:46:57" itemprop="dateCreated datePublished" datetime="2018-05-20T13:26:07+08:00">2018-05-20</time>
             
 
             
@@ -398,241 +392,65 @@
       
 
       
-        <p>有一少部分人人觉得这是装逼,而有些人则默默的使用他完成自己的种种文本处理工作,<br><a id="more"></a>​<br><img src="/images/vi-vim-cheat-sheet-sch.gif" alt=""><br>    <strong>用过Linux应该没有不知道vi/vim编辑器的吧,它是一款功能特别强大的文本编辑软件,第一次看到这个工具的介绍时,我都震惊了,在只能输英文字母的界面上我们还可以这样操作,同时也对软件的设计者有着深深的崇拜之情,原谅我的词穷,无法用文字来表达我对这款软件的喜爱之情,vim是vi的增强版,由于本人一直都用的是vim,所以以下都是对于vim的介绍,当然vim只是比vi增加了不少功能,软件的作者是一个叫布莱姆·米勒的荷兰程序员在1991年发布的,这个软件其实在Windows下也可以使用,其源代码现在也托管在GitHub上面:<a href="github.com/vim/vim">github.com/vim/vim</a>官方网站为:<a href="www.vim.org">www.vim.org</a>下面就简单的总结一下这个软件的使用方法</strong></p>
-<p>首先要介绍一下vim的三种模式:<strong>命令模式,编辑模式,扩展命令模式</strong></p>
-<p>​    <strong>命令模式</strong>:是vim的默认模式,在这个模式下你可用一些特定含义的字符来进行复制,粘贴,定位光标等一系列操作</p>
-<p>​    <strong>插入模式</strong>:这个容易理解了,就是编辑文本文件</p>
-<p>​    <strong>扩展命令模式</strong>:这个主要是可以输入一些vim自有的命令,来完成一些高级功能</p>
-<p>想要使用vim打开一个文件非常简单,只需要在命令提示符中输入<em>vim file_name</em>即可打开,当然vim打开的时候也可以使用一些特定的选项:</p>
-<table>
-<thead>
-<tr>
-<th>选项</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>-d</td>
-<td>打开多个文件做比较</td>
-</tr>
-<tr>
-<td>-m</td>
-<td>以只读方式打开</td>
-</tr>
-<tr>
-<td>-e</td>
-<td>直接进入扩展命令模式</td>
-</tr>
-<tr>
-<td>+n</td>
-<td>打开后光标定位到第n行</td>
-</tr>
-<tr>
-<td>+pattern</td>
-<td>打开光标后定位到第一个匹配到行的位置</td>
-</tr>
-</tbody>
-</table>
-<p>在打开的时候默认进入的是vim的命令模式,下面就详细的介绍各个模式下的操作:</p>
-<p>​    <strong>命令模式</strong></p>
-<p>​    首先介绍一下进入编辑模式的几种操作:</p>
+        <p>首先,本文会介绍CentOS5的启动流程,接下来会对比CentOS5介绍CentOS6和CentOS7的启动流程,注意文中介绍的都是BIOS+MBR格式分区的启动方式</p>
+<a id="more"></a>
+<h2 id="CentOS5系统启动流程"><a href="#CentOS5系统启动流程" class="headerlink" title="CentOS5系统启动流程"></a>CentOS5系统启动流程</h2><ol>
+<li><p><strong>POST加电自检</strong></p>
 <blockquote>
-<p>​        i:进入到插入模式</p>
-<p>​        I:进入到插入模式,并且光标移动到行首</p>
-<p>​        a:进入插入模式后,光标移动到后一个字符</p>
-<p>​        A:进入插入模式后,光标移动到行尾</p>
-<p>​        o:切换到插入模式,并且在当前行下方插入一个空行,并且光标移动到空行</p>
-<p>​        O:这个就很简单了,在当前行上方插入空行</p>
+<p>检测计算机各个硬件是否处于正常状态,如果正常则继续执行,后面的操作,如果有些部件不正常,主办上的蜂鸣器可能会发从警告声,</p>
 </blockquote>
-<p><strong>注意</strong>:现在的设定还是在命令模式下,再介绍一些其他的操作</p>
-<p><strong>光标跳转:</strong></p>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>h,j,k,l:</td>
-<td>这四个字母分别代表,光标向左,下,上,右移动,虽然看起来没有什么规律,其实他是在你键        盘右手自然放置的位置,我们还可以在按下这几个字母之前加一个数字,就代表移动若干行或字符,比如说向上移动5行可以按,5k,下面的介绍中很多都支持这种操作,以下就把这种操作叫NCOMMAND操作(这是我自己起的).</td>
-</tr>
-<tr>
-<td>w</td>
-<td>光标移动到下一个单词的词首,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>e</td>
-<td>光标移动到下一个单词的词尾,如果光标不在当前单词词尾则第一次移动到当前单词词尾,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>b</td>
-<td>光标移动到当前单词词首或上一个单词词首,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>^</td>
-<td>移动到当前行非空格的行首</td>
-</tr>
-<tr>
-<td>0</td>
-<td>移动到行首</td>
-</tr>
-<tr>
-<td>$</td>
-<td>移动到行尾</td>
-</tr>
-<tr>
-<td>nG</td>
-<td>跳转到第n行</td>
-</tr>
-<tr>
-<td>G</td>
-<td>跳转到末尾行</td>
-</tr>
-<tr>
-<td>H</td>
-<td>光标跳转到当前屏幕的最上面</td>
-</tr>
-<tr>
-<td>L</td>
-<td>光标跳转到当前屏幕的最下面</td>
-</tr>
-<tr>
-<td>M</td>
-<td>光标跳转到当前屏幕的中间</td>
-</tr>
-<tr>
-<td>Ctrl+f</td>
-<td>向后翻一屏</td>
-</tr>
-<tr>
-<td>Ctrl+b</td>
-<td>向前翻一屏</td>
-</tr>
-<tr>
-<td>Ctrl+d</td>
-<td>向后翻半屏</td>
-</tr>
-<tr>
-<td>Ctrl+u</td>
-<td>向文件首部翻半屏</td>
-</tr>
-</tbody>
-</table>
-<p><strong>编辑命令:</strong></p>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>x</td>
-<td>删除(其实是剪切)光标处的字符,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>p</td>
-<td>粘贴</td>
-</tr>
-<tr>
-<td>xp</td>
-<td>交换光标和光标后面字符的位置</td>
-</tr>
-<tr>
-<td>d</td>
-<td>剪切命令,如果不粘贴就实现了删除操作单是一个d没有任何效果,可以结合上面的跳转命令剪切字符或者行,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>d$</td>
-<td>从当前位置剪切到行尾,,NCOMMAND示例:5d$,从当前位置删除到下5行尾</td>
-</tr>
-<tr>
-<td>d0</td>
-<td>从当前位置剪切到行首</td>
-</tr>
-<tr>
-<td>dw</td>
-<td>剪切到下一个单词首,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>de</td>
-<td>剪切到单词尾,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>db</td>
-<td>剪切到单词首,,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>y</td>
-<td>复制命令,和d命令操作逻辑一样,这里就不再一一列举了</td>
-</tr>
-<tr>
-<td>yy</td>
-<td>复制一整行</td>
-</tr>
-<tr>
-<td>cc</td>
-<td>删除当前行,并进入编辑模式,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>u</td>
-<td>撤销命令,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>U</td>
-<td>恢复当前行,使之成为编辑前的状态,当然移动光标后就不能使用该操作了</td>
-</tr>
-<tr>
-<td>Ctrl+r</td>
-<td>撤销上一个撤销操作</td>
-</tr>
-<tr>
-<td>.</td>
-<td>重复前一个操作</td>
-</tr>
-</tbody>
-</table>
-<p>以上就是一些经常会用到的命令,下面开始介绍扩展命令模式</p>
-<p>想进入扩展命令模式其实特别简单,只要在命令模式下输入:就进入了扩展命令模式了,你会发现在屏幕的左下方会有一个冒号在冒号后面就可以输入命令了,输入完成之后按回车键执行,接下来就介绍一些经常会用到的命令</p>
-<p><strong>地址定界</strong>:就是在扩展命令下定位光标位置,以及对文件中的哪些行进行操作</p>
-<p>​    n:定位到第n行</p>
-<p>​    m,n:从第m行到地n行,当需要编辑这几行的内容时可以这样写</p>
-<p>​    n,+m:从当前行开始之后的m行</p>
-<p>​    .:表示当前行</p>
-<p>​    $:表示最后一行</p>
-<p>​    %:全文</p>
-<p>​    /pattern1/,/pattern2/:从第一个模式匹配到的第一行到第二个模式匹配到的第一行</p>
-<p>​    地址定界之后可跟上面的编辑命令,比如1,5d表示删除第一到五行</p>
-<p><strong>另存文件</strong>:</p>
-<p>​    w /path/to/newfile 将文件另存到其他地方,当然前面也可以跟地址定界,把指定的行存到另外的文件中</p>
-<p>​    r /path/to/otherfile 将另外文件中的内容读取到当前行</p>
-<p><strong>替换</strong>:这个也是经常会用到的</p>
-<p>​    %s/a/b/可选选项</p>
-<p>​    前面也可以跟地址定界,s是关键字/是分隔符,可以用其他字符表示,a是要替换的内容,可以使用正则表达式b是替换为的内容&amp;前面要替换的内容,可选选项主要有i,g.i表示忽略大小写g表示全局替换,默认情况下,在一行中替换了一次就不再在该行中进行替换了,g可将该行中所有符合的都替换</p>
-<p>下面再介绍几个<strong>配置vim特性</strong>的常用命令</p>
-<p>​    显示行号:set number,可以简写为set nu,如果想取消可以使用set nonu</p>
-<p>​    高亮括号匹配:set showmatch 简写为set  sm</p>
-<p>​    自动缩进:set ai</p>
-<p>​    高亮搜索结果:set hlsearch</p>
-<p>​    语法高亮:syntax on/off</p>
-<p>​    忽略字符大小写:set ic</p>
-<p>这里只是列举了几个,还有很多很多,当然这样中配置只能在当前vim进程中有效,如果想全局有效的话当然是得写入到vim的配置文件中了,对于vim也不例外有两个配置文件,个人~/.vimrc和全局配置文件/etc/vimrc,你可以查阅官方文档来对vim进行你自己的个性化定制</p>
-<p>另外介绍vim的一个炫技的技能:打开多个文件,可以使用vim后加多个文件名来打开多个文件,当然打开的时候显示的是第一个文件可以使用:next切换到下一个文件,:prev切换到上一个文件:first切换到第一个文件,:last切换到最后一个,:qall退出所有文件,:wall保存所有,:wqall保存并退出所有,如果你觉得这种方法不好用可以在打开时使用-o或-O选项来打开文件,这样文件就会以水平或者垂直的方式显示在同一个屏幕上,如下图:</p>
-<p><img src="/images/vim01.png" alt=""></p>
-<p>当然这时我们还需要另外一个技能就是将光标切换到不同的窗口中,那就可以用Ctrl+w然后按上下左右键切换到不同的窗口中</p>
-<p>如果你觉得vim非常难学,那么作者还非常贴心的写了一个练习工具:vimtutor,打开之后是一个vim的说明文档,当然是用vim打开的,你可以在里面边看文档边的折腾他,</p>
-<p>最后总结一下,vim的强大之处关键的一点在于他的命令可以组合着使用,比如你在编辑模式下输入了一个单词后,然后返回到命令模式输入100然后按下.他就会将你刚才输入的那个单词重复100遍</p>
-<p>最后再展示几张网上找到的vim的键位图:</p>
-<p><img src="/images/advanced1.png" alt=""></p>
-<p><img src="/images/entry1.png" alt=""></p>
-<p><img src="/images/morden1.png" alt=""></p>
-<p><strong>参考资料</strong></p>
-<p>​    <a href="http://vimcdoc.sourceforge.net/vim_user_manual_603.0.pdf" target="_blank" rel="noopener">一个中文的vim文档</a></p>
-<p>​    <a href="http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html" target="_blank" rel="noopener">开头的图片</a></p>
+</li>
+<li><p><strong>选择引导设备</strong></p>
+<blockquote>
+<p>根据设定好的系统加载次序,依次扫描各个加载设备,直到找到第一个可以加载的磁盘设备,</p>
+</blockquote>
+</li>
+<li><p><strong>grub第1阶段</strong></p>
+<blockquote>
+<p>读取上一步找到的磁盘设备的第0磁道第0扇区(也就是MBR)的前446字节,这一部分称做引导加载器即BootLoader</p>
+</blockquote>
+</li>
+<li><p><strong>grub1.5阶段</strong></p>
+<blockquote>
+<p>该步骤是通过上一步的指示,读取bootloader的后n个扇区,该部分主要存放了用以加载boot分区的程序</p>
+</blockquote>
+</li>
+<li><p><strong>grub2阶段</strong></p>
+<blockquote>
+<p>此时就可以加载boot分区了,加载之后会读取grub目录中的grub.conf配置文件,这个文件中定义了默认的启动项以及grub菜单的显示时间,内核文件(vmlinuz)的位置(支持多个内核),根分区的位置,伪根分区文件(initrd)等等,之后就可以在屏幕上看到grub的启动菜单了,在此选择需要启动的内核,选择后,grub会将整个计算机的控制权交给内核,此时grub使命完成</p>
+</blockquote>
+</li>
+<li><p><strong>内核初始化</strong></p>
+<blockquote>
+<p>加载内核后首先会尝试根据grub,中的配置尝试以只读的方式去挂载根分区,因为没有根分区磁盘驱动程序等原因造成根分区挂载失败,则会将initrd文件载人内存使其临时成为根分区,内核通过根分区中的工具,文件等进行自身的初始化</p>
+</blockquote>
+</li>
+<li><p><strong>启动第一个进程/sbin/init</strong></p>
+<blockquote>
+<p>内核初始化完成,开始尝试启动第一个进程/sbin/init,该程序在CentOS5中由SysVinit程序提供该进程会进行一系列的系统初始化动作</p>
+<ol>
+<li>读取/etc/inittab文件,以下详细解释文件中各部分的作用<ul>
+<li>id:3:initdefault:,确定系统启动的运行级别,中间的数字代表不同的运行级别,0:关机,1:单用户模式:没有NFS服务的多用户模式,3:命令行模式的多用户模式,4:保留,暂未使用,5:图形界面模式,6:重启,在进入系统后可以使用init N来手动改变运行模式</li>
+<li>si::sysinit:/etc/rc.d/rc.sysinit,系统初始化脚本,该脚步中又完成了一系列的动作,比如定义主机名,设置欢迎信息,激活selinux,挂载/etc/fstab文件中定义的文件系统(这里可能会伪根文件系统切换成真正的根文件系统),导入/etc/init.d/functions文件(该文件中定义了一系列的函数,方便在初始化时使用,)检查selinux状态,启动swap分区等等一列的操作,这里不再一一列举</li>
+<li>l0:0:wait:/etc/rc.d/rc 0:会有7条这样的语句,每条代表一个运行级别,第2列的数字代表的是运行级别,最后一个数字是传给/etc/rc.d/rc脚本的参数,代表的是对应的运行级别,该脚本会根据传给他的对应的运行级别来启动关闭该级别中需要关闭,启动的服务,其工作原理很简单,执行了/etc/rc.d/rcN.d/中的脚本(N代表对应的运行级别数字),其实是指向//etc/init.d/中的对应服务启动脚本的软链接,这些软链接的名字是按规定格式写的,以K或者S,中间是两位数字最后是服务的名称,K代表该运行级别中不启动的服务,S代表该运行级别中需要启动的服务,中间的两位数字可以控制服务的启动与关闭的顺序,因为某写服务会依赖于其他的服务,因此需要有顺序的控制,最后会有一个特殊的文件S99local,这个软链接没有指向服务启动脚本而是指向了/etc/rc.local,由于是99因此它会最后一个执行,用户可以在这个文件中写一些系统启动时需要执行的命令,,由此,其实我们在执行chkconfig命令启用或者关闭某个服务开机启动时其实就是在修改这些快捷方式的名称,以上介绍可以看出,不同的运行级别,其实就是启动不同的服务而已,</li>
+<li>ca::ctrlaltdel:/sbin/shutdown -t3 -r now:,监听ctrl+alt+del按键,当三个按键同时按下时,系统会重新启动,为了防误触,可以注释掉该行</li>
+<li>pf::powerfail:/sbin/shutdown -f -h +2 “Power Failure; System Shutting Down”,这一行定义了,当计算机断电接入ups电源后,会在两分钟内关机,</li>
+<li>pr:12345:powerokwait:/sbin/shutdown -c “Power Restored; Shutdown Cancelled”,这个功能是当接入ups后,来电后会取消上面定义的关机操作</li>
+<li>1:2345:respawn:/sbin/mingetty tty1,默认会有6行,即系统启动后会启动6个tty终端(即使用ctrl+alt+f[1-6],可以切换终端),可以人为的删除增加行,来增减这个数值,其中respawn表示该进程如果被终止,系统会立即生成一个新的进程,即保证永远有n个tty终端</li>
+<li>x:5:respawn:/etc/X11/prefdm -nodaemon:这一行定义了哪一个运行级别属于图形界面,至此系统启动完成</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+</li>
+</ol>
+<h2 id="CentOS6与CentOS5对比"><a href="#CentOS6与CentOS5对比" class="headerlink" title="CentOS6与CentOS5对比"></a>CentOS6与CentOS5对比</h2><blockquote>
+<p>其实在内核启动之前所有的步骤都没有什么变化,不过,虽然系统启动的第一个进程也是/sbin/init但是在centos6中的init程序却悄悄的发生了一些变化,centos6中的init程序由upstart程序提供,该程序其实是ubuntu开发的,以此可见,只有同行才是赤裸裸的仇恨这句话也不是那么的准确,upstart的启动过程略有不同,在/etc/inittab文件中仅定义了系统启动的运行级别,其他的配置都放在了/etc/init/*.conf中了,不过它还是会运行/etc/rc.d/rc.sysinit脚本的,upstart与SysVinit最大的区别是在开机时服务的启动上提高了速度,在CentOS5中服务只能是前一个服务启动完成后后一个服务才可以启动,这样其实并没有多大必要,因为好多服务是没有依赖关系的,因此在CentOS6中对于这些没有依赖关系的服务,在启动时是可以并行启动的,这样就加快了启动的速度</p>
+</blockquote>
+<h2 id="CentOS7与CentOS6的对比"><a href="#CentOS7与CentOS6的对比" class="headerlink" title="CentOS7与CentOS6的对比"></a>CentOS7与CentOS6的对比</h2><blockquote>
+<p>在CentOS7中系统的启动有了不小的改变,首先是grub,从之前centos5,6使用的grub0.9直接升级到了grub2,系统启动的第一个进程也由init改成了Systemd,这个systemd的功能实在是太强大了(据说systemd主要借鉴了Mac的OSX系统的启动方式),服务的启动,系统的运行级别,磁盘的挂载统统可以由systemd来完成,在systemd中这些不同的功能被定义成不同的Unit,服务被叫做service,运行级别被叫做target,已经有了一种systemd一家独大的感觉了,不过,最主要的是,CentOS7的开机启动效率又被大大的提高了少,CentOS7将多数的有依赖关系的服务的启动也做了优化,大概的运行机制是在系统启动时,先将被依赖服务打一个已经启动的标签,这样需要依赖他的服务就可以差不多的和它同时启动</p>
+</blockquote>
+<p>最后,以上这些内容为个人总结而来,可能会有很多不妥的地方,再以后觉得不妥的地方还会更新,修改</p>
 
       
     </div>
@@ -648,7 +466,7 @@
       
         <div class="copyright">
         <p><span>
-        <b>本文地址：</b><a href="/2018/05/17/vi-vim/" title="vi编辑器">http://zhudabai.github.io/2018/05/17/vi-vim/</a><br/><b>转载请注明出处，谢谢！</b>
+        <b>本文地址：</b><a href="/2018/05/20/System-Start/" title="CentOS系列操作系统启动">http://zhudabai.github.io/2018/05/20/System-Start/</a><br/><b>转载请注明出处，谢谢！</b>
         </span></p>
         </div>
       
@@ -664,9 +482,7 @@
           
             <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
           
-            <a href="/tags/vi/" rel="tag"><i class="fa fa-tag"></i> vi</a>
-          
-            <a href="/tags/编辑器/" rel="tag"><i class="fa fa-tag"></i> 编辑器</a>
+            <a href="/tags/系统启动/" rel="tag"><i class="fa fa-tag"></i> 系统启动</a>
           
         </div>
       
@@ -679,8 +495,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/17/yum-rpm/" rel="next" title="程序包管理 rpm/yum/源码编译">
-                <i class="fa fa-chevron-left"></i> 程序包管理 rpm/yum/源码编译
+              <a href="/2018/05/17/vi-vim/" rel="next" title="vi编辑器">
+                <i class="fa fa-chevron-left"></i> vi编辑器
               </a>
             
           </div>
@@ -688,10 +504,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/20/System-Start/" rel="prev" title="CentOS系列操作系统启动">
-                CentOS系列操作系统启动 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -740,8 +552,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -862,6 +683,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CentOS5系统启动流程"><span class="nav-number">1.</span> <span class="nav-text">CentOS5系统启动流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CentOS6与CentOS5对比"><span class="nav-number">2.</span> <span class="nav-text">CentOS6与CentOS5对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CentOS7与CentOS6的对比"><span class="nav-number">3.</span> <span class="nav-text">CentOS7与CentOS6的对比</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
