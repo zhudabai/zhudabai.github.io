@@ -117,7 +117,7 @@
 <meta property="og:image" content="http://smartyhero.com/images/dhcp-conf.png">
 <meta property="og:image" content="http://smartyhero.com/images/tftpboot.png">
 <meta property="og:image" content="http://smartyhero.com/images/default.png">
-<meta property="og:updated_time" content="2018-05-27T05:40:38.787Z">
+<meta property="og:updated_time" content="2018-05-27T05:52:58.580Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CentOS系统的自动化安装">
 <meta name="twitter:description" content="我们平时安装的linux系列的系统大部分使用的安装程序都是anaconda,它有两种显示方式,一种是基于图形界面的,另一种是基于字符界面的,我们平时安装系统通过一系列的点点点,最终其实生成了一个anaconda的配置文件,anaconda会根据这个配置文件中的信息来安装系统,并且安装完系统后会将这个配置文件保存到root家目录中且名为anaconda-ks.cfg">
@@ -241,6 +241,14 @@
         
         
           
+          <li class="menu-item menu-item-自动化运维">
+    <a href="/categories/自动化运维" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-自动化运维"></i> <br />自动化运维</a>
+  </li>
+        
+        
+        
+          
           <li class="menu-item menu-item-about">
     <a href="/about/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-关于"></i> <br />关于</a>
@@ -344,7 +352,7 @@
                 
               
 
-              <time title="创建时间：2018-05-27 13:16:03 / 修改时间：13:40:38" itemprop="dateCreated datePublished" datetime="2018-05-27T13:16:03+08:00">2018-05-27</time>
+              <time title="创建时间：2018-05-27 13:16:03 / 修改时间：13:52:58" itemprop="dateCreated datePublished" datetime="2018-05-27T13:16:03+08:00">2018-05-27</time>
             
 
             
@@ -406,11 +414,11 @@
 <h3 id="系统安装过程"><a href="#系统安装过程" class="headerlink" title="系统安装过程"></a>系统安装过程</h3><p>当计算机选定了光盘的引导位置后,会加载光盘中的isolinux目录下的isolinux.cfg配置文件,之后会根据该配置文件在屏幕上显示一个引导菜单如下</p>
 <p><img src="/images/cdromboot.png" alt=""></p>
 <p>我们可以根据我们需要的操作去选择需要执行的操作,注意这个菜单仅是光盘提供的一个配置文件,我们完全可以修改这个配置文件让他以不同方式显示,执行不同的操作,以此让计算机自动的安装一个系统,而且就像grub一样我们也可以在这个地方编辑这些菜单相关的选项,我们只需要选定某个菜单然后按tab键就可以编辑了,如下图所示</p>
-<p><img src="/images/cdrom-tab.png" alt="cdrom-tab"></p>
+<p><img src="/images/cdrom-tab.png" alt=""></p>
 <p>好像还有点熟悉,第一个肯定是内核文件,第二个指定的应该是伪根文件系统文件,我们可以仅保留下来内核文件名和initrd文件的配置选项,将其他的删了,然后自己指定,在这里我们可以指定在安装系统期间使用的ip地址,以及anaconda的配置文件地址,都可以配置地址了,那anaconda的配置文件肯定是可以放在网络上了,以下对常用的配置选项进行说明:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ip=1.2.3.4				<span class="comment"># 在系统安装期间使用的ip地址</span></span><br><span class="line">netmask=255.255.0.0		<span class="comment"># 指定子网掩码</span></span><br><span class="line">gateway=1.2.3.1			<span class="comment"># 指定网关</span></span><br><span class="line">noipv6				   <span class="comment">#不使用ipv6</span></span><br><span class="line">[inst.]ks=    <span class="comment">#指定anaconda配置文件的路径,注意在后续说明中将这个文件称作ks文件,centos7中可能需要inst.</span></span><br><span class="line">[inst.]gpt		<span class="comment">#强制系统采用gpt分区格式</span></span><br><span class="line">[inst.]vnc		<span class="comment">#在系统安装期间启用vnc服务,方便对安装情况的查看</span></span><br><span class="line">[inst.]sshd		<span class="comment">#在系统安装期间启用sshd服务</span></span><br></pre></td></tr></table></figure>
 <p>当然我们也可以上上面的界面中按esc键进入boot:命令行模式,在这里也可以输入这些参数,选项如下示例:</p>
-<p><img src="/images/cdrom-bootcmd.png" alt="cdrom-bootcmd"></p>
+<p><img src="/images/cdrom-bootcmd.png" alt=""></p>
 <p>你可以将你自己的已经安装好的系统中的anaconda-ks.cfg放到一个http服务器上或者ftp服务器上,然后用光盘引导系统,将ks文件指向你自己的文件路径就可以比较自动的安装一个和你之前系统相关配置一样 的一个系统了</p>
 <p>当然,上面的方法还是挺low的,不但操作不灵活,而且可定制性非常差,下面我们就可以自己定制一个引导菜单,然后制作一个小的引导光盘将这个引导光盘放入计算机后,开机后自动安装一个系统,首先看一下光盘中isolinux/isolinux.cfg这个配置文件的一些关键行</p>
 <blockquote>
