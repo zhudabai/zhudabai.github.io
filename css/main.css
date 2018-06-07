@@ -1086,14 +1086,14 @@ pre .javascript .function {
 .back-to-top.back-to-top-on {
   bottom: 30px;
 }
-.header {
-  background: url("/images/Deat_to_Stock_Goods_2-1.jpg");
-}
 .header-inner {
   position: relative;
 }
 .headband {
-  background: #222;
+  background: url("/images/Deat_to_Stock_Goods_2-1-1366.jpg");
+  background-size: 100% auto;
+  height: 400px;
+  background-position: center;
 }
 .site-meta {
   margin: 0;
@@ -1825,7 +1825,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #559199;
+  background: #49ff46;
 }
 .links-of-blogroll {
   font-size: 13px;
