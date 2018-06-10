@@ -105,14 +105,14 @@
   <meta name="description" content="SQL语言全称,结构化查询语言,是数据库通用的数据库语言,各个数据库厂商基于SQL标准开发了各自的SQL语言,他们的语法既有共同之处,也各自在一些小的地方有各自不同的之处,这篇文章主要介绍了MySQL/MariaDB使用的SQL语言,且在该文章中由于本人脑子有炮,所以在没有特别申明的情况下MySQL和MariaDB会不加区分的使用">
 <meta name="keywords" content="MySQL,MariaDB,SQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SQL语句">
+<meta property="og:title" content="SQL语句,增删改查">
 <meta property="og:url" content="http://smartyhero.com/2018/06/10/SQL/index.html">
 <meta property="og:site_name" content="无聊,放牛">
 <meta property="og:description" content="SQL语言全称,结构化查询语言,是数据库通用的数据库语言,各个数据库厂商基于SQL标准开发了各自的SQL语言,他们的语法既有共同之处,也各自在一些小的地方有各自不同的之处,这篇文章主要介绍了MySQL/MariaDB使用的SQL语言,且在该文章中由于本人脑子有炮,所以在没有特别申明的情况下MySQL和MariaDB会不加区分的使用">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-06-10T13:00:38.848Z">
+<meta property="og:updated_time" content="2018-06-10T13:14:28.114Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SQL语句">
+<meta name="twitter:title" content="SQL语句,增删改查">
 <meta name="twitter:description" content="SQL语言全称,结构化查询语言,是数据库通用的数据库语言,各个数据库厂商基于SQL标准开发了各自的SQL语言,他们的语法既有共同之处,也各自在一些小的地方有各自不同的之处,这篇文章主要介绍了MySQL/MariaDB使用的SQL语言,且在该文章中由于本人脑子有炮,所以在没有特别申明的情况下MySQL和MariaDB会不加区分的使用">
 
 
@@ -130,7 +130,7 @@
   };
 </script>
 
-  <title>SQL语句 | 无聊,放牛</title>
+  <title>SQL语句,增删改查 | 无聊,放牛</title>
   
 
 
@@ -319,7 +319,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">SQL语句
+          <h1 class="post-title" itemprop="name headline">SQL语句,增删改查
               
             
           </h1>
@@ -344,7 +344,7 @@
                 
               
 
-              <time title="创建时间：2018-06-10 16:39:19 / 修改时间：21:00:38" itemprop="dateCreated datePublished" datetime="2018-06-10T16:39:19+08:00">2018-06-10</time>
+              <time title="创建时间：2018-06-10 16:39:19 / 修改时间：21:14:28" itemprop="dateCreated datePublished" datetime="2018-06-10T16:39:19+08:00">2018-06-10</time>
             
 
             
@@ -402,19 +402,9 @@
       
         <p>SQL语言全称,结构化查询语言,是数据库通用的数据库语言,各个数据库厂商基于SQL标准开发了各自的SQL语言,他们的语法既有共同之处,也各自在一些小的地方有各自不同的之处,这篇文章主要介绍了MySQL/MariaDB使用的SQL语言,且在该文章中由于本人脑子有炮,所以在没有特别申明的情况下MySQL和MariaDB会不加区分的使用</p>
 <a id="more"></a>
-<h3 id="语言规范"><a href="#语言规范" class="headerlink" title="语言规范"></a>语言规范</h3><p>不区分大小写</p>
-<p>字符串可能会区分大小写</p>
-<p>可以单行也可以多行,</p>
-<p>以分号结束</p>
-<p>关键词不能跨行写</p>
-<p>可以使用缩进提高阅读性</p>
-<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><p>/<em> contents</em>/:多行注释</p>
-<p>– 注释内容:单行注释–后面有空格</p>
-<p># MySQL中的注释</p>
-<h4 id="数据库对象命名规则"><a href="#数据库对象命名规则" class="headerlink" title="数据库对象命名规则"></a>数据库对象命名规则</h4><p>必须以字母开头</p>
-<p>可以包括数字和三个特殊符号,# _ $</p>
-<p>不要使用MySQL的保留字</p>
-<p>同一个database中对象不能同名,即使不是同一类型</p>
+<h3 id="语言规范"><a href="#语言规范" class="headerlink" title="语言规范"></a>语言规范</h3><p>不区分大小写<br>字符串可能会区分大小写<br>可以单行也可以多行,<br>以分号结束<br>关键词不能跨行写<br>可以使用缩进提高阅读性</p>
+<h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><p>/<em> contents</em>/:多行注释<br>– 注释内容:单行注释–后面有空格<br># MySQL中的注释</p>
+<h4 id="数据库对象命名规则"><a href="#数据库对象命名规则" class="headerlink" title="数据库对象命名规则"></a>数据库对象命名规则</h4><p>必须以字母开头<br>可以包括数字和三个特殊符号,# _ $<br>不要使用MySQL的保留字<br>同一个database中对象不能同名,即使不是同一类型</p>
 <h3 id="SQL语句分类"><a href="#SQL语句分类" class="headerlink" title="SQL语句分类:"></a>SQL语句分类:</h3><p><strong>这个分类并不是一个标准的分类,所以不用纠结</strong></p>
 <ol>
 <li>DDL(Data Defination Language):数据定义语言,常用的SQL关键字有create,drop,alter</li>
@@ -429,10 +419,7 @@
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; show charset;</span><br></pre></td></tr></table></figure>
 <p>msyql会显示一个列表给你,有以下字段</p>
 <blockquote>
-<p>Charset:字符集的名称</p>
-<p>Description:描述信息</p>
-<p>Default_collation:该字符集使用的默认排序方式</p>
-<p>Maxlen:单个字符所占的最大字节数</p>
+<p>Charset:字符集的名称<br>Description:描述信息<br>Default_collation:该字符集使用的默认排序方式<br>Maxlen:单个字符所占的最大字节数</p>
 </blockquote>
 <p><strong>获取所有的排序方式</strong>:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; show collation;</span><br></pre></td></tr></table></figure>
@@ -527,14 +514,7 @@ comment:表描述信息
 <p>下面就来一点点的扩展:</p>
 <p><strong>where子句</strong>:主要作用是对查到的结果进行过滤,其后面可以写一系列的条件</p>
 <blockquote>
-<p>​    and:并且</p>
-<p>​    or:或者</p>
-<p>​    =,!=,&lt;&gt;,&lt;=,&gt;=,&lt;,&gt;:等于,不等于,不等于,小于等于,大于等于,小于,大于</p>
-<p>​    is NULL:是NULL</p>
-<p>​    is no null 不是NULL</p>
-<p>​    between  … and … 从某个小值到某个大值</p>
-<p>​    not:取反</p>
-<p>​    xor:异或</p>
+<p>​    and:并且<br>​    or:或者<br>​    =,!=,&lt;&gt;,&lt;=,&gt;=,&lt;,&gt;:等于,不等于,不等于,小于等于,大于等于,小于,大于<br>​    is NULL:是NULL<br>​    is no null 不是NULL<br>​    between  … and … 从某个小值到某个大值<br>​    not:取反<br>​    xor:异或</p>
 </blockquote>
 <p><strong>示例</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[blog]&gt; select * from weibo; where weibo_id = 5 </span><br><span class="line">[blog]&gt; select weibo_id,user_id,weibo_contents from weibo where weibo_idid &gt; 3 and user_id &lt; 5 ;</span><br></pre></td></tr></table></figure>
@@ -545,11 +525,7 @@ comment:表描述信息
 <p>分组,这个可能稍微有点难理解,在需要统计功能的时候可以使用,最长用的方法就是在select的时候使用某个函数进行统计某个字段的信息,然后,使用group by对这个字段进行分组,且分组的字段必须是select的字段中的一个</p>
 <p><strong>常用的函数</strong></p>
 <blockquote>
-<p>​    min():求这组值中的最小值</p>
-<p>​    max():求最大值</p>
-<p>​    avg():求平均值</p>
-<p>​    sum():求和</p>
-<p>​    count():统计个数</p>
+<p>​    min():求这组值中的最小值<br>​    max():求最大值<br>​    avg():求平均值<br>​    sum():求和<br>​    count():统计个数</p>
 </blockquote>
 <p>了解了这几个常用函数在使用分组时就简单多了,我们可以根据某一个字段进行分组,然后对该字段中相同的内容进行统计</p>
 <p><strong>示例</strong></p>
@@ -592,7 +568,7 @@ comment:表描述信息
       
         <div class="copyright">
         <p><span>
-        <b>本文地址：</b><a href="/2018/06/10/SQL/" title="SQL语句">http://smartyhero.com/2018/06/10/SQL/</a><br/><b>转载请注明出处，谢谢！</b>
+        <b>本文地址：</b><a href="/2018/06/10/SQL/" title="SQL语句,增删改查">http://smartyhero.com/2018/06/10/SQL/</a><br/><b>转载请注明出处，谢谢！</b>
         </span></p>
         </div>
       

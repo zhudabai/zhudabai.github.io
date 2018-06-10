@@ -1094,6 +1094,7 @@ pre .javascript .function {
   background-size: 100% auto;
   height: 400px;
   background-position: center;
+  margin-bottom: 3px;
 }
 .site-meta {
   margin: 0;
@@ -1825,7 +1826,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #1dffe7;
+  background: #ffffbf;
 }
 .links-of-blogroll {
   font-size: 13px;
