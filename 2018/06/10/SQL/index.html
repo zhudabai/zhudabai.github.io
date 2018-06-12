@@ -110,7 +110,7 @@
 <meta property="og:site_name" content="无聊,放牛">
 <meta property="og:description" content="SQL语言全称,结构化查询语言,是数据库通用的数据库语言,各个数据库厂商基于SQL标准开发了各自的SQL语言,他们的语法既有共同之处,也各自在一些小的地方有各自不同的之处,这篇文章主要介绍了MySQL/MariaDB使用的SQL语言,且在该文章中由于本人脑子有炮,所以在没有特别申明的情况下MySQL和MariaDB会不加区分的使用">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-06-10T13:14:28.114Z">
+<meta property="og:updated_time" content="2018-06-11T00:00:24.662Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SQL语句,增删改查">
 <meta name="twitter:description" content="SQL语言全称,结构化查询语言,是数据库通用的数据库语言,各个数据库厂商基于SQL标准开发了各自的SQL语言,他们的语法既有共同之处,也各自在一些小的地方有各自不同的之处,这篇文章主要介绍了MySQL/MariaDB使用的SQL语言,且在该文章中由于本人脑子有炮,所以在没有特别申明的情况下MySQL和MariaDB会不加区分的使用">
@@ -344,12 +344,24 @@
                 
               
 
-              <time title="创建时间：2018-06-10 16:39:19 / 修改时间：21:14:28" itemprop="dateCreated datePublished" datetime="2018-06-10T16:39:19+08:00">2018-06-10</time>
+              <time title="创建时间：2018-06-10 16:39:19" itemprop="dateCreated datePublished" datetime="2018-06-10T16:39:19+08:00">2018-06-10</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-06-11 08:00:24" itemprop="dateModified" datetime="2018-06-11T08:00:24+08:00">2018-06-11</time>
               
             
           </span>
@@ -551,8 +563,7 @@ comment:表描述信息
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[blog]&gt; select user,password,host from blog.user </span><br><span class="line">union </span><br><span class="line">select user,password,host from mysql.user;</span><br><span class="line">[blog]&gt; select user,password,host from blog.user </span><br><span class="line">union all </span><br><span class="line">select user,password,host from mysql.user;</span><br></pre></td></tr></table></figure>
 <p><strong>视图</strong>:view,虚表,保存有实表查询到的部分结果,视图本身并不存放数据,其实和别名差不多,只不过是在任何一条SQL语句中都可以使用,其他数据库也有将视图中的数据保存到磁盘中的,但是MySQL并没有<br>        CREATE VIEW view_name  AS SELECT …</p>
 <p><strong>select执行顺序</strong>:from  –&gt; where –&gt; group by –&gt; having –&gt; order by  –&gt; select –&gt; limit</p>
-<h4 id="相关文档"><a href="#相关文档" class="headerlink" title="相关文档"></a>相关文档</h4><p><a href="https://dev.mysql.com/doc/" target="_blank" rel="noopener">mysql文档</a></p>
-<p><a href="http://downloads.mysql.com/docs/refman-5.1-zh.html-chapter.zip" target="_blank" rel="noopener">mysql5.1中文文档官方下载</a></p>
+<h4 id="相关文档"><a href="#相关文档" class="headerlink" title="相关文档"></a>相关文档</h4><p><a href="https://dev.mysql.com/doc/" target="_blank" rel="noopener">mysql文档</a><br><a href="http://downloads.mysql.com/docs/refman-5.1-zh.html-chapter.zip" target="_blank" rel="noopener">mysql5.1中文文档官方下载</a></p>
 
       
     </div>

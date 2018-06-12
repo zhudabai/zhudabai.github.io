@@ -1091,10 +1091,10 @@ pre .javascript .function {
 }
 .headband {
   background: url("/images/Deat_to_Stock_Goods_2-1-1366.jpg");
-  background-size: 100% auto;
-  height: 400px;
+  background-size: cover;
+  height: 300px;
   background-position: center;
-  margin-bottom: 3px;
+  margin-bottom: 10px;
 }
 .site-meta {
   margin: 0;
@@ -1826,7 +1826,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffffbf;
+  background: #3d66eb;
 }
 .links-of-blogroll {
   font-size: 13px;
