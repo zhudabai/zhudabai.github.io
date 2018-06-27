@@ -102,31 +102,25 @@
 
 
 
-  <meta name="description" content="有一少部分人人觉得这是装逼,而有些人则默默的使用他完成自己的种种文本处理工作,">
-<meta name="keywords" content="linux,vi,编辑器">
+  <meta name="description" content="本文主要总结了一些常用的httpd的配置项">
+<meta name="keywords" content="web,httpd">
 <meta property="og:type" content="article">
-<meta property="og:title" content="vi编辑器">
-<meta property="og:url" content="http://smartyhero.com/2018/05/17/vi-vim/index.html">
+<meta property="og:title" content="Apache常用配置">
+<meta property="og:url" content="http://smartyhero.com/2018/06/27/httpd-config/index.html">
 <meta property="og:site_name" content="无聊,放牛">
-<meta property="og:description" content="有一少部分人人觉得这是装逼,而有些人则默默的使用他完成自己的种种文本处理工作,">
+<meta property="og:description" content="本文主要总结了一些常用的httpd的配置项">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://smartyhero.com/images/vi-vim-cheat-sheet-sch.gif">
-<meta property="og:image" content="http://smartyhero.com/images/vim01.png">
-<meta property="og:image" content="http://smartyhero.com/images/advanced1.png">
-<meta property="og:image" content="http://smartyhero.com/images/entry1.png">
-<meta property="og:image" content="http://smartyhero.com/images/morden1.png">
-<meta property="og:updated_time" content="2018-05-17T11:00:23.896Z">
+<meta property="og:updated_time" content="2018-06-27T13:16:10.458Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="vi编辑器">
-<meta name="twitter:description" content="有一少部分人人觉得这是装逼,而有些人则默默的使用他完成自己的种种文本处理工作,">
-<meta name="twitter:image" content="http://smartyhero.com/images/vi-vim-cheat-sheet-sch.gif">
+<meta name="twitter:title" content="Apache常用配置">
+<meta name="twitter:description" content="本文主要总结了一些常用的httpd的配置项">
 
 
 
 
 
 
-  <link rel="canonical" href="http://smartyhero.com/2018/05/17/vi-vim/"/>
+  <link rel="canonical" href="http://smartyhero.com/2018/06/27/httpd-config/"/>
 
 
 
@@ -136,7 +130,7 @@
   };
 </script>
 
-  <title>vi编辑器 | 无聊,放牛</title>
+  <title>Apache常用配置 | 无聊,放牛</title>
   
 
 
@@ -308,7 +302,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://smartyhero.com/2018/05/17/vi-vim/">
+    <link itemprop="mainEntityOfPage" href="http://smartyhero.com/2018/06/27/httpd-config/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="朱大白">
@@ -325,7 +319,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">vi编辑器
+          <h1 class="post-title" itemprop="name headline">Apache常用配置
               
             
           </h1>
@@ -350,7 +344,7 @@
                 
               
 
-              <time title="创建时间：2018-05-17 18:51:19 / 修改时间：19:00:23" itemprop="dateCreated datePublished" datetime="2018-05-17T18:51:19+08:00">2018-05-17</time>
+              <time title="创建时间：2018-06-27 21:02:47 / 修改时间：21:16:10" itemprop="dateCreated datePublished" datetime="2018-06-27T21:02:47+08:00">2018-06-27</time>
             
 
             
@@ -372,7 +366,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux基础/" itemprop="url" rel="index"><span itemprop="name">Linux基础</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/web服务/" itemprop="url" rel="index"><span itemprop="name">web服务</span></a></span>
 
                 
                 
@@ -406,241 +400,53 @@
       
 
       
-        <p>有一少部分人人觉得这是装逼,而有些人则默默的使用他完成自己的种种文本处理工作,<br><a id="more"></a>​<br><img src="/images/vi-vim-cheat-sheet-sch.gif" alt=""><br>    <strong>用过Linux应该没有不知道vi/vim编辑器的吧,它是一款功能特别强大的文本编辑软件,第一次看到这个工具的介绍时,我都震惊了,在只能输英文字母的界面上我们还可以这样操作,同时也对软件的设计者有着深深的崇拜之情,原谅我的词穷,无法用文字来表达我对这款软件的喜爱之情,vim是vi的增强版,由于本人一直都用的是vim,所以以下都是对于vim的介绍,当然vim只是比vi增加了不少功能,软件的作者是一个叫布莱姆·米勒的荷兰程序员在1991年发布的,这个软件其实在Windows下也可以使用,其源代码现在也托管在GitHub上面:<a href="github.com/vim/vim">github.com/vim/vim</a>官方网站为:<a href="www.vim.org">www.vim.org</a>下面就简单的总结一下这个软件的使用方法</strong></p>
-<p>首先要介绍一下vim的三种模式:<strong>命令模式,编辑模式,扩展命令模式</strong></p>
-<p>​    <strong>命令模式</strong>:是vim的默认模式,在这个模式下你可用一些特定含义的字符来进行复制,粘贴,定位光标等一系列操作</p>
-<p>​    <strong>插入模式</strong>:这个容易理解了,就是编辑文本文件</p>
-<p>​    <strong>扩展命令模式</strong>:这个主要是可以输入一些vim自有的命令,来完成一些高级功能</p>
-<p>想要使用vim打开一个文件非常简单,只需要在命令提示符中输入<em>vim file_name</em>即可打开,当然vim打开的时候也可以使用一些特定的选项:</p>
-<table>
-<thead>
-<tr>
-<th>选项</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>-d</td>
-<td>打开多个文件做比较</td>
-</tr>
-<tr>
-<td>-m</td>
-<td>以只读方式打开</td>
-</tr>
-<tr>
-<td>-e</td>
-<td>直接进入扩展命令模式</td>
-</tr>
-<tr>
-<td>+n</td>
-<td>打开后光标定位到第n行</td>
-</tr>
-<tr>
-<td>+pattern</td>
-<td>打开光标后定位到第一个匹配到行的位置</td>
-</tr>
-</tbody>
-</table>
-<p>在打开的时候默认进入的是vim的命令模式,下面就详细的介绍各个模式下的操作:</p>
-<p>​    <strong>命令模式</strong></p>
-<p>​    首先介绍一下进入编辑模式的几种操作:</p>
-<blockquote>
-<p>​        i:进入到插入模式</p>
-<p>​        I:进入到插入模式,并且光标移动到行首</p>
-<p>​        a:进入插入模式后,光标移动到后一个字符</p>
-<p>​        A:进入插入模式后,光标移动到行尾</p>
-<p>​        o:切换到插入模式,并且在当前行下方插入一个空行,并且光标移动到空行</p>
-<p>​        O:这个就很简单了,在当前行上方插入空行</p>
-</blockquote>
-<p><strong>注意</strong>:现在的设定还是在命令模式下,再介绍一些其他的操作</p>
-<p><strong>光标跳转:</strong></p>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>h,j,k,l:</td>
-<td>这四个字母分别代表,光标向左,下,上,右移动,虽然看起来没有什么规律,其实他是在你键        盘右手自然放置的位置,我们还可以在按下这几个字母之前加一个数字,就代表移动若干行或字符,比如说向上移动5行可以按,5k,下面的介绍中很多都支持这种操作,以下就把这种操作叫NCOMMAND操作(这是我自己起的).</td>
-</tr>
-<tr>
-<td>w</td>
-<td>光标移动到下一个单词的词首,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>e</td>
-<td>光标移动到下一个单词的词尾,如果光标不在当前单词词尾则第一次移动到当前单词词尾,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>b</td>
-<td>光标移动到当前单词词首或上一个单词词首,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>^</td>
-<td>移动到当前行非空格的行首</td>
-</tr>
-<tr>
-<td>0</td>
-<td>移动到行首</td>
-</tr>
-<tr>
-<td>$</td>
-<td>移动到行尾</td>
-</tr>
-<tr>
-<td>nG</td>
-<td>跳转到第n行</td>
-</tr>
-<tr>
-<td>G</td>
-<td>跳转到末尾行</td>
-</tr>
-<tr>
-<td>H</td>
-<td>光标跳转到当前屏幕的最上面</td>
-</tr>
-<tr>
-<td>L</td>
-<td>光标跳转到当前屏幕的最下面</td>
-</tr>
-<tr>
-<td>M</td>
-<td>光标跳转到当前屏幕的中间</td>
-</tr>
-<tr>
-<td>Ctrl+f</td>
-<td>向后翻一屏</td>
-</tr>
-<tr>
-<td>Ctrl+b</td>
-<td>向前翻一屏</td>
-</tr>
-<tr>
-<td>Ctrl+d</td>
-<td>向后翻半屏</td>
-</tr>
-<tr>
-<td>Ctrl+u</td>
-<td>向文件首部翻半屏</td>
-</tr>
-</tbody>
-</table>
-<p><strong>编辑命令:</strong></p>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>x</td>
-<td>删除(其实是剪切)光标处的字符,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>p</td>
-<td>粘贴</td>
-</tr>
-<tr>
-<td>xp</td>
-<td>交换光标和光标后面字符的位置</td>
-</tr>
-<tr>
-<td>d</td>
-<td>剪切命令,如果不粘贴就实现了删除操作单是一个d没有任何效果,可以结合上面的跳转命令剪切字符或者行,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>d$</td>
-<td>从当前位置剪切到行尾,,NCOMMAND示例:5d$,从当前位置删除到下5行尾</td>
-</tr>
-<tr>
-<td>d0</td>
-<td>从当前位置剪切到行首</td>
-</tr>
-<tr>
-<td>dw</td>
-<td>剪切到下一个单词首,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>de</td>
-<td>剪切到单词尾,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>db</td>
-<td>剪切到单词首,,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>y</td>
-<td>复制命令,和d命令操作逻辑一样,这里就不再一一列举了</td>
-</tr>
-<tr>
-<td>yy</td>
-<td>复制一整行</td>
-</tr>
-<tr>
-<td>cc</td>
-<td>删除当前行,并进入编辑模式,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>u</td>
-<td>撤销命令,支持NCOMMAND操作</td>
-</tr>
-<tr>
-<td>U</td>
-<td>恢复当前行,使之成为编辑前的状态,当然移动光标后就不能使用该操作了</td>
-</tr>
-<tr>
-<td>Ctrl+r</td>
-<td>撤销上一个撤销操作</td>
-</tr>
-<tr>
-<td>.</td>
-<td>重复前一个操作</td>
-</tr>
-</tbody>
-</table>
-<p>以上就是一些经常会用到的命令,下面开始介绍扩展命令模式</p>
-<p>想进入扩展命令模式其实特别简单,只要在命令模式下输入:就进入了扩展命令模式了,你会发现在屏幕的左下方会有一个冒号在冒号后面就可以输入命令了,输入完成之后按回车键执行,接下来就介绍一些经常会用到的命令</p>
-<p><strong>地址定界</strong>:就是在扩展命令下定位光标位置,以及对文件中的哪些行进行操作</p>
-<p>​    n:定位到第n行</p>
-<p>​    m,n:从第m行到地n行,当需要编辑这几行的内容时可以这样写</p>
-<p>​    n,+m:从当前行开始之后的m行</p>
-<p>​    .:表示当前行</p>
-<p>​    $:表示最后一行</p>
-<p>​    %:全文</p>
-<p>​    /pattern1/,/pattern2/:从第一个模式匹配到的第一行到第二个模式匹配到的第一行</p>
-<p>​    地址定界之后可跟上面的编辑命令,比如1,5d表示删除第一到五行</p>
-<p><strong>另存文件</strong>:</p>
-<p>​    w /path/to/newfile 将文件另存到其他地方,当然前面也可以跟地址定界,把指定的行存到另外的文件中</p>
-<p>​    r /path/to/otherfile 将另外文件中的内容读取到当前行</p>
-<p><strong>替换</strong>:这个也是经常会用到的</p>
-<p>​    %s/a/b/可选选项</p>
-<p>​    前面也可以跟地址定界,s是关键字/是分隔符,可以用其他字符表示,a是要替换的内容,可以使用正则表达式b是替换为的内容&amp;前面要替换的内容,可选选项主要有i,g.i表示忽略大小写g表示全局替换,默认情况下,在一行中替换了一次就不再在该行中进行替换了,g可将该行中所有符合的都替换</p>
-<p>下面再介绍几个<strong>配置vim特性</strong>的常用命令</p>
-<p>​    显示行号:set number,可以简写为set nu,如果想取消可以使用set nonu</p>
-<p>​    高亮括号匹配:set showmatch 简写为set  sm</p>
-<p>​    自动缩进:set ai</p>
-<p>​    高亮搜索结果:set hlsearch</p>
-<p>​    语法高亮:syntax on/off</p>
-<p>​    忽略字符大小写:set ic</p>
-<p>这里只是列举了几个,还有很多很多,当然这样中配置只能在当前vim进程中有效,如果想全局有效的话当然是得写入到vim的配置文件中了,对于vim也不例外有两个配置文件,个人~/.vimrc和全局配置文件/etc/vimrc,你可以查阅官方文档来对vim进行你自己的个性化定制</p>
-<p>另外介绍vim的一个炫技的技能:打开多个文件,可以使用vim后加多个文件名来打开多个文件,当然打开的时候显示的是第一个文件可以使用:next切换到下一个文件,:prev切换到上一个文件:first切换到第一个文件,:last切换到最后一个,:qall退出所有文件,:wall保存所有,:wqall保存并退出所有,如果你觉得这种方法不好用可以在打开时使用-o或-O选项来打开文件,这样文件就会以水平或者垂直的方式显示在同一个屏幕上,如下图:</p>
-<p><img src="/images/vim01.png" alt=""></p>
-<p>当然这时我们还需要另外一个技能就是将光标切换到不同的窗口中,那就可以用Ctrl+w然后按上下左右键切换到不同的窗口中</p>
-<p>如果你觉得vim非常难学,那么作者还非常贴心的写了一个练习工具:vimtutor,打开之后是一个vim的说明文档,当然是用vim打开的,你可以在里面边看文档边的折腾他,</p>
-<p>最后总结一下,vim的强大之处关键的一点在于他的命令可以组合着使用,比如你在编辑模式下输入了一个单词后,然后返回到命令模式输入100然后按下.他就会将你刚才输入的那个单词重复100遍</p>
-<p>最后再展示几张网上找到的vim的键位图:</p>
-<p><img src="/images/advanced1.png" alt=""></p>
-<p><img src="/images/entry1.png" alt=""></p>
-<p><img src="/images/morden1.png" alt=""></p>
-<p><strong>参考资料</strong></p>
-<p>​    <a href="http://vimcdoc.sourceforge.net/vim_user_manual_603.0.pdf" target="_blank" rel="noopener">一个中文的vim文档</a></p>
-<p>​    <a href="http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html" target="_blank" rel="noopener">开头的图片</a></p>
+        <p>本文主要总结了一些常用的httpd的配置项</p>
+<a id="more"></a>
+<p>首先,RPM安装的和自己手动编译的httpd的配置文件组织方式稍有区别</p>
+<p>​    RPM包安装的配置文件有三个地方<br>        /etc/httpd/conf/httpd.conf<br>        /etc/httpd/conf.d/<em>.conf<br>        /etc/httpd/conf.module.d/</em>.conf<br>    rpm包安装的httpd,ServerRoot的位置为/etc/httpd/,因此这个目录里还有几个软链接,指向了,logs,modules等目录的真实位置</p>
+<p>​    源码编译的httpd的配置文件主要有两个位置<br>        /etc/httpd/httpd.conf<br>        /etc/httpd/extra/*.conf</p>
+<p>源码包的ServerRoot为编译时手动指定的,多为/usr/local目录中的某个目录<br>需要注意的是/etc/httpd/extra/*.conf中的好多文件默认是没有被引入到主配置文件中的,因此,很可能配置后出现不生效的可能</p>
+<p>配置格式,httpd的配置文件采用了类似xml的格式配置,即两个标签将内容包起来,<br>    例如<directory "="" path"=""></directory>是对某一个目录的具体配置<br>    另外它还引入了一种判断格式,判断某个模块是否启用,如果模块启用则内部的配置生效,否则不生效,                                </p>
+<p>​    <ifmodule mpm_event_module=""></ifmodule></p>
+<p>​        …<br>    </p>
+<p>用的最多的是这种类似key value的形式,中间用空格分开,配置文件中统一使用#进行注释</p>
+<p><strong>模块加载</strong>,<br>    格式:这里模块的路径可以是相对于ServerRoot的相对路径<br>    LoadModule module_name module/path</p>
+<p><strong>服务版本信息</strong>:</p>
+<p>在http头中的server字段中,显示的服务器版本信息,建议配置为Prod,仅显示为Apache,避免服务器版本暴露<br>        ServerTokens {full|major|minor|os|prod}</p>
+<p>错误页面底部是否显示版本信息:同上建议设置为Off<br>    ServerSignature {On|Off|Email}</p>
+<p><strong>修改监听的ip,端口</strong>,ip不写的话监听在所有ip上<br>    Listen [1.2.3.4:]80</p>
+<p><strong>持久连接:</strong><br>    KeepAlive {on|off},是否开启持久连接,httpd的一个特性,即建立一次tcp连接后是否可以通过改连接发起多次请求,而不用每个请求都进行三次握手四次挥手,根据业务需求打开或者关闭<br>    KeepAliveTimeout N[ms]:此处的N是一个时间值,默认单位为秒,在2.4版本中可以以毫秒为单位,<br>    MaxKeepAliveRequests N:单个连接允许的最大请求次数,超过N,则强制断开连接,如果客户端需要请求资源,必须重新建立会话连接</p>
+<p>MPM配置,httpd有三种进程管理模型,perfork,worker,event,在源码编译时通过可通过–enable-mpms-shared选项将这三个模块编译为动态模块,安装完之后可以启用三者之一的模块来定义使用的管理模型,否则只会编译一个模块,要想改变工作模型必须重新编译<br>    perfork:服务启动时创建一个守护进程,和多个子进程,每个子进程响应一个请求<br>    worker:服务启动时创建一个守护进程,和多个子进程,每个子进程创建n个线程,由每个线程进行请求的响应<br>    event:和worker工作模式相似,不过引入了个管理线程,来提高线程的复用</p>
+<p>​    以下为各个模块的各个配置项的具体说明,注意这些配置项需根据自己的生成环境不断调整优化,得出比较符合自己的数字,<br>    <ifmodule mpm_prefork_module=""><br>        StartServers:启动服务时创建的进程数(不包含主进程)<br>        MinSpareServers:最小空闲子进程数<br>        MaxSpareServers:最大空闲子进程数<br>        MaxRequestWorksers:最大并发连接数<br>        MaxConnectionsPerChild:每个子进程在其生命周期内允许最大的请求数，为0子进程将永远不会结束<br>    </ifmodule><br>    <ifmodule mpm_worker_module=""><br>        StartServers:启动服务时创建的进程数<br>        MinSpareThreads:最小空闲子进程数<br>        MaxSpareThreads:最大空闲子进程数<br>        ThreadsPerChild:每个子进程产生的线程数量<br>        MaxRequestWorksers:最大并发数<br>        MaxConnectionsPerChild:每个子进程在其生命周期内允许最大的请求数量<br>    </ifmodule><br>    <ifmodule mpm_event_module=""><br>        StartServers:启动服务时创建的进程数<br>        MinSpareThreads:最小空闲子进程数<br>        MaxSpareThreads:最大空闲子进程数<br>        ThreadsPerChild:每个子进程产生的线程数量<br>        MaxRequestWorksers:最大并发数<br>        MaxConnectionsPerChild:每个子进程在其生命周期内允许最大的请求数量<br>    </ifmodule></p>
+<p><strong>网站的根目录路径</strong>:<br>    DocumentRoot /path/to/webdir,配置网站程序存放的路径,此路径最好对运行httpd响应进程的用户有权限,且应该为最小权限,在2.4版本中必须有相应的Directory对其限制</p>
+<p><strong>站点访问路径控制</strong><br>    目录控制示例:<br>    <directory "="" path="" to="" webdir"=""><br>        Options -Indexes<br>        Require all granted<br>    <directory><br>    文件控制<br>    <files "="" path="" to="" file"=""></files></directory></directory></p>
+<p>​    <br>    正则匹配<br>    <filesmatch "pattern"=""></filesmatch></p>
+<p>​    <br>    URL控制<br>    <location "="" path="" url"=""></location></p>
+<p>​    <br>    URL正则匹配<br>    <locationmatch "pattern"=""></locationmatch></p>
+<p>​    <br><strong>控制策略:</strong><br>    options可以定义特定的操作是否可以在该目录下正常使用,选项前+表示可以,-表示不可以,可以跟多个选项,用空格分隔<br>        Indexes:当首页文件不存在时,是否通过web界面向用户展示目录列表<br>        FollowSymLinks:当目录中存在软链接时是否可以被访问<br>        ExecCGI:是否允许使用mod_cgi执行CGI脚本。<br>        MultiViews:是否允许内容协商,即是否允许使用mod_negotiation模块<br>        none:全部禁止<br>        all:全部允许<br>    Require定义了哪些用户是否有权限访问<br>        Require all granted:所有的请求都允许<br>        Require all denied<br>        Require [not] user user1,user2,…是否允许指定的用户访问,配合用户认证使用<br>        Require [not] group user1,user2,…是否允许指定组中的用户访问,配合用户认证使用<br>        Require valid-user:所有的用户都可以访问<br>        Require [not] ip ip1,ip2,…指定范围内的ip可以访问<br><strong>用户基本认证方式:</strong><br>    AuthType basic:认证类型<br>    AuthName “string”:用户打开网页时认证对话框中显示信息<br>    AuthUserFile “/path/to/user_file”:用户数据文件<br>    AuthGroupFile “/path/to/group_file”:组数据文件<br>    Require …<br>    satisfy {all|any}<br>        all:只有ip和用户密码认证都通过了才可以正常访问<br>        any:只要有一项认证通过了就可以</p>
+<p><strong>创建用户数据文件</strong>:<br>    # htpasswd [options] /path/to/user_file username<br>​        -c:创建user_file文件,只有第一次创建时使用该选项,之后使用会覆盖<br>        -p:不加密密码<br>        -m:使用md5加密密码<br>        -s:使用sha加密密码<br>        -D:删除指定用户</p>
+<p>​    组文件可以自己手动创建,格式为group_name:user1,user2,…</p>
+<p><strong>首页文件名</strong><br>    DirectoryIndex index.html index.php </p>
+<p><strong>日志相关:</strong><br>    ErrorLog 错误日志的位置<br>    LogLevel 日志级别<br>        debug,info,notice,warn,error越靠前记录的越详细<br>    CustomLogs /path/to/logfile [format_name]:定义访问日志的位置,及使用的格式名称<br>    LogFormat formats…. format_name:定义日志格式:<br>        %h:客户端ip地址<br>        %l:登录时使用的用户名,并不是表单认证中的,-为空<br>        %{format}t:客户端访问时间,可以对其进行格式定制,其格式和date命令中的格式符类似<br>        %r:请求报文的首行信息<br>        %&gt;s:响应的状态码<br>        %b:响应报文大小,不包含首部信息<br>        %{some}i:请求报文中某个字段的值</p>
+<p><strong>设定字符集</strong><br>    AddDefaultCharset UTF-8</p>
+<p><strong>别名</strong>:请求某个URL使其访问特定目录中的内容,注意为这个目录做授权<br>    Alias “/url” “/path/to/somedir”</p>
+<p><strong>httpd状态展示</strong>:需要启用mod_status.so模块<br>LoadModule status_module modules/mod_status.so</p>
+&lt;Location /server_status&gt;<br>    SetHandler server-status<br>
+
+<p>当用户访问网站下的server_status时就会返回httpd状态的一个页面,当然,这个页面不应该让所有人都看见</p>
+<p><strong>虚拟主机配置</strong>:可以基于端口,ip,主机名进行配置,一般虚拟主机不与中心主机共存,配置虚拟主机后应该把中心主机关闭,即注释DocumentRoot</p>
+<p>基于端口<br>    listen 81<br>    listen 82<br>    listen 83</p>
+<p>​    <virtualhost 1.2.3.4:81=""><br>        DocumentRoot “/path/to/site”<br>        <directory "="" path="" to="" site"=""><br>            Require all granted<br>        </directory><br>        ErrorLog ‘/path/to/errlog’<br>        TransferLog ‘/path/to/acclog’<br>    </virtualhost></p>
+<p>基于主机名: 尖括号中只能写<em>:80<br>    &lt;VirtualHost </em>:80&gt;<br>        ServerName fqdn<br>        ServerAlias:虚拟主机别名<br>        DocumentRoot “/path/to/site”<br>        <directory "="" path="" to="" site"=""><br>            Require all granted<br>        </directory><br>        ErrorLOg ‘/path/to/errlog’<br>        TransferLog ‘/path/to/acclog’<br>    </p>
+<p><strong>mod_deflate模块</strong>,用于压缩,可以对指定类型的数据进行压缩后传输,节省带宽,</p>
+<p>loadmodule deflate_module modules/mod_deflate.so</p>
+<p>AddOutputFilterByType DEFLATE text/plain:指定要压缩的内容<br>DeflateCompressionLevel 9,指定压缩比</p>
+<p><strong>sendfile机制</strong>    </p>
+<p>httpd的连接线程是使用普通用户运行在用户空间下的进程,在客户端访问请求到达后,他需要向内核申请,由内核来读取文件到内核空间,然后将数据复制到连接线程的用户空间中,然后连接线程为数据打好http包头,然后再向内核申请将数据通过网络进行传输,<br>减少进程上下文切换,文件复制次数</p>
+<p>EnableSendFile {On|Off}</p>
+<p><strong>反向代理功能:</strong></p>
+<p>ProxyPass “/“ “<a href="http://fqdn&quot;" target="_blank" rel="noopener">http://fqdn&quot;</a><br>ProxyPassMatch “/“ “<a href="http://fqdn&quot;:可以使用正则匹配" target="_blank" rel="noopener">http://fqdn&quot;:可以使用正则匹配</a></p>
+<p><strong>重定向</strong><br>    Redirect {Temp|permanent} new_url<br>        Permanent:301重定向<br>        temp:302重定向<br><strong>HSTS</strong>:Http Strict Transport Security:<br>    第一次访问时通过307状态码返回HTTPS的链接<br>    Header always set Strict-Transport-Security “Max-age=86400”<br>    RewriteEngine on<br>    RewriteRule ^(/.*)$ https://%{HTTP_HOST}$1[redirect=302]</p>
 
       
     </div>
@@ -656,7 +462,7 @@
       
         <div class="copyright">
         <p><span>
-        <b>本文地址：</b><a href="/2018/05/17/vi-vim/" title="vi编辑器">http://smartyhero.com/2018/05/17/vi-vim/</a><br/><b>转载请注明出处，谢谢！</b>
+        <b>本文地址：</b><a href="/2018/06/27/httpd-config/" title="Apache常用配置">http://smartyhero.com/2018/06/27/httpd-config/</a><br/><b>转载请注明出处，谢谢！</b>
         </span></p>
         </div>
       
@@ -670,11 +476,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+            <a href="/tags/web/" rel="tag"><i class="fa fa-tag"></i> web</a>
           
-            <a href="/tags/vi/" rel="tag"><i class="fa fa-tag"></i> vi</a>
-          
-            <a href="/tags/编辑器/" rel="tag"><i class="fa fa-tag"></i> 编辑器</a>
+            <a href="/tags/httpd/" rel="tag"><i class="fa fa-tag"></i> httpd</a>
           
         </div>
       
@@ -687,8 +491,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/17/yum-rpm/" rel="next" title="程序包管理 rpm/yum/源码编译">
-                <i class="fa fa-chevron-left"></i> 程序包管理 rpm/yum/源码编译
+              <a href="/2018/06/12/MySQL-log/" rel="next" title="'MySQL日志'">
+                <i class="fa fa-chevron-left"></i> 'MySQL日志'
               </a>
             
           </div>
@@ -696,10 +500,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/05/20/System-Start/" rel="prev" title="CentOS系列操作系统启动">
-                CentOS系列操作系统启动 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
