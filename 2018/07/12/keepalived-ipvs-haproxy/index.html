@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.2.0',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在我们搭建好一个lvs集群后,虽然系统整体的处理能力得以了很大的提升,但是它却存在着一个致命的问题,单点失败,当lvs调度器出现故障后,整个系统都无法正常提供服务,因此这里必须对lvs做高可用,这篇文章都是图片和配置文件,仅为个人实验的一个总结,没有太多知识点">
+<meta name="keywords" content="高可用,集群,示例">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用keepalived高可用ipvs和haproxy">
+<meta property="og:url" content="http://smartyhero.com/2018/07/12/keepalived-ipvs-haproxy/index.html">
+<meta property="og:site_name" content="无聊,放牛">
+<meta property="og:description" content="在我们搭建好一个lvs集群后,虽然系统整体的处理能力得以了很大的提升,但是它却存在着一个致命的问题,单点失败,当lvs调度器出现故障后,整个系统都无法正常提供服务,因此这里必须对lvs做高可用,这篇文章都是图片和配置文件,仅为个人实验的一个总结,没有太多知识点">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://smartyhero.com/images/keepalived+ipvs-1531364275139-1531364276741.png">
+<meta property="og:image" content="http://smartyhero.com/images/keepalived+ipvs-1531364275139-1531364276741.png">
+<meta property="og:image" content="http://smartyhero.com/images/keepalived-ipvs-e.g-1531368612900.png">
+<meta property="og:image" content="f:/study/hexo-init/source/images/1531366365977.png">
+<meta property="og:image" content="f:/study/hexo-init/source/images/1531367135528.png">
+<meta property="og:image" content="f:/study/hexo-init/source/images/1531367476490.png">
+<meta property="og:image" content="f:/study/hexo-init/source/images/1531367525601.png">
+<meta property="og:image" content="f:/study/hexo-init/source/images/1531367605272.png">
+<meta property="og:image" content="f:/study/hexo-init/source/images/1531367723436.png">
+<meta property="og:image" content="f:/study/hexo-init/source/images/1531366621485.png">
+<meta property="og:image" content="f:/study/hexo-init/source/images/1531367769143.png">
+<meta property="og:image" content="f:/study/hexo-init/source/images/1531375766870.png">
+<meta property="og:image" content="f:/study/hexo-init/source/images/1531375948567.png">
+<meta property="og:image" content="f:/study/hexo-init/source/images/1531377055496.png">
+<meta property="og:image" content="f:/study/hexo-init/source/images/1531377250090.png">
+<meta property="og:image" content="f:/study/hexo-init/source/images/1531387207198.png">
+<meta property="og:updated_time" content="2018-07-12T09:28:19.187Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用keepalived高可用ipvs和haproxy">
+<meta name="twitter:description" content="在我们搭建好一个lvs集群后,虽然系统整体的处理能力得以了很大的提升,但是它却存在着一个致命的问题,单点失败,当lvs调度器出现故障后,整个系统都无法正常提供服务,因此这里必须对lvs做高可用,这篇文章都是图片和配置文件,仅为个人实验的一个总结,没有太多知识点">
+<meta name="twitter:image" content="http://smartyhero.com/images/keepalived+ipvs-1531364275139-1531364276741.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://smartyhero.com/2018/07/12/keepalived-ipvs-haproxy/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>使用keepalived高可用ipvs和haproxy | 无聊,放牛</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">无聊,放牛</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-主页"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-linux基础">
+    <a href="/categories/linux基础" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-linux基础"></i> <br />linux基础</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-自动化运维">
+    <a href="/categories/自动化运维" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-自动化运维"></i> <br />自动化运维</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-关于"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+    <a href="/404/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />公益 404</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://smartyhero.com/2018/07/12/keepalived-ipvs-haproxy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="朱大白">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/dabai.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="无聊,放牛">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用keepalived高可用ipvs和haproxy
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-07-12 10:21:34 / 修改时间：17:28:19" itemprop="dateCreated datePublished" datetime="2018-07-12T10:21:34+08:00">2018-07-12</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/集群/" itemprop="url" rel="index"><span itemprop="name">集群</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/images/keepalived+ipvs-1531364275139-1531364276741.png" alt="keepalived+ipvs"></p>
+<p>在我们搭建好一个lvs集群后,虽然系统整体的处理能力得以了很大的提升,但是它却存在着一个致命的问题,单点失败,当lvs调度器出现故障后,整个系统都无法正常提供服务,因此这里必须对lvs做高可用,这篇文章都是图片和配置文件,仅为个人实验的一个总结,没有太多知识点</p>
+<a id="more"></a>
+<h3 id="keepalived高可用ipvs"><a href="#keepalived高可用ipvs" class="headerlink" title="keepalived高可用ipvs"></a>keepalived高可用ipvs</h3><p>在我们搭建好一个lvs集群后,虽然系统整体的处理能力得以了很大的提升,但是它却存在着一个致命的问题,单点失败,当lvs调度器出现故障后,整个系统都无法正常提供服务,因此这里必须对lvs做高可用,即添加一个节点,当主节点down掉后备份节点可以立即将VIP配置在自己的节点上,继续替代主节点进行工作,当然这里又会出现一个问题,就是从节点一直处于空闲状态,造成了不小的资源浪费,因此可以将其配置为双主模型,这样就有两个对外提供服务的ip地址,我们需要在DNS上将这两个ip地址分别解析,而且后端的real server也必须配置为两个VIP,基本流程图如下所示:</p>
+<p><img src="/images/keepalived+ipvs-1531364275139-1531364276741.png" alt="keepalived+ipvs"></p>
+<h4 id="配置示例"><a href="#配置示例" class="headerlink" title="配置示例:"></a>配置示例:</h4><p>大致架构如下:</p>
+<p><img src="/images/keepalived-ipvs-e.g-1531368612900.png" alt="keepalived-ipvs-e.g"></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">主机名</th>
+<th style="text-align:center">ip地址</th>
+<th style="text-align:center">部署服务</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">node1</td>
+<td style="text-align:center">192.168.132.85</td>
+<td style="text-align:center">keepalived</td>
+</tr>
+<tr>
+<td style="text-align:center">node2</td>
+<td style="text-align:center">192.168.132.81</td>
+<td style="text-align:center">httpd</td>
+</tr>
+<tr>
+<td style="text-align:center">node3</td>
+<td style="text-align:center">192.168.132.82</td>
+<td style="text-align:center">httpd</td>
+</tr>
+<tr>
+<td style="text-align:center">node4</td>
+<td style="text-align:center">192.168.132.88</td>
+<td style="text-align:center">keepalived</td>
+</tr>
+</tbody>
+</table>
+<p>node2,node3需要提前配置好httpd,这里不做配置说明</p>
+<p><strong>keepalived1节点配置</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">   notification_email &#123;</span><br><span class="line">     acassen@firewall.loc</span><br><span class="line">     failover@firewall.loc</span><br><span class="line">     sysadmin@firewall.loc</span><br><span class="line">   &#125;</span><br><span class="line">   notification_email_from Alexandre.Cassen@firewall.loc</span><br><span class="line">   smtp_server 127.0.0.1</span><br><span class="line">   smtp_connect_timeout 30</span><br><span class="line">   router_id KA_HELLO1</span><br><span class="line">   vrrp_skip_check_adv_addr</span><br><span class="line">   vrrp_strict</span><br><span class="line">   vrrp_garp_interval 0</span><br><span class="line">   vrrp_gna_interval 0</span><br><span class="line">   vrrp_mcast_group4 224.0.0.15</span><br><span class="line">   vrrp_iptables</span><br><span class="line">&#125;</span><br><span class="line"># 配置第一个虚拟ip高可用</span><br><span class="line">vrrp_instance lvs_1 &#123;</span><br><span class="line">    state MASTER</span><br><span class="line">    interface ens33</span><br><span class="line">    virtual_router_id 55</span><br><span class="line">    priority 100</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 052fad0e</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.132.85/24</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"># 配置第二个虚拟ip高可用</span><br><span class="line">vrrp_instance lvs_2 &#123;</span><br><span class="line">    state BACKUP</span><br><span class="line">    interface ens33</span><br><span class="line">    virtual_router_id 60</span><br><span class="line">    priority 95</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 052fad0e</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.132.88/24</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"># 配置虚拟ip为第一个ip的lvs,并对real server做健康性检查,</span><br><span class="line">virtual_server 192.168.132.85 80 &#123;</span><br><span class="line">        delay_loop 6</span><br><span class="line">        lb_algo rr</span><br><span class="line">        lb_kind DR</span><br><span class="line">        protocol TCP</span><br><span class="line"></span><br><span class="line">        real_server 192.168.132.81 80 &#123;</span><br><span class="line">                weight 1</span><br><span class="line">                HTTP_GET &#123;</span><br><span class="line">                        url &#123;</span><br><span class="line">                                path /health_check.html</span><br><span class="line">                                status_code 200</span><br><span class="line">                        &#125;</span><br><span class="line">                        connect_timeout 3</span><br><span class="line">                        nb_get_retry 3</span><br><span class="line">                        delay_before_retry 3</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        real_server 192.168.132.82 80 &#123;</span><br><span class="line">                weight 1</span><br><span class="line">                HTTP_GET &#123;</span><br><span class="line">                        url &#123;</span><br><span class="line">                                path /health_check.html</span><br><span class="line">                                status_code 200</span><br><span class="line">                        &#125;</span><br><span class="line">                        connect_timeout 3</span><br><span class="line">                        nb_get_retry 3</span><br><span class="line">                        delay_before_retry 3</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"># 配置虚拟ip为第二个ip的lvs,并对real server做健康性检查,</span><br><span class="line">virtual_server 192.168.132.88 80 &#123;</span><br><span class="line">        delay_loop 6</span><br><span class="line">        lb_algo rr</span><br><span class="line">        lb_kind DR</span><br><span class="line">        protocol TCP</span><br><span class="line"></span><br><span class="line">        real_server 192.168.132.81 80 &#123;</span><br><span class="line">                weight 1</span><br><span class="line">                HTTP_GET &#123;</span><br><span class="line">                        url &#123;</span><br><span class="line">                                path /health_check.html</span><br><span class="line">                                status_code 200</span><br><span class="line">                        &#125;</span><br><span class="line">                        connect_timeout 3</span><br><span class="line">                        nb_get_retry 3</span><br><span class="line">                        delay_before_retry 3</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        real_server 192.168.132.82 80 &#123;</span><br><span class="line">                weight 1</span><br><span class="line">                HTTP_GET &#123;</span><br><span class="line">                        url &#123;</span><br><span class="line">                                path /health_check.html</span><br><span class="line">                                status_code 200</span><br><span class="line">                        &#125;</span><br><span class="line">                        connect_timeout 3</span><br><span class="line">                        nb_get_retry 3</span><br><span class="line">                        delay_before_retry 3</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>keepalived2节点配置</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">   notification_email &#123;</span><br><span class="line">     acassen@firewall.loc</span><br><span class="line">     failover@firewall.loc</span><br><span class="line">     sysadmin@firewall.loc</span><br><span class="line">   &#125;</span><br><span class="line">   notification_email_from Alexandre.Cassen@firewall.loc</span><br><span class="line">   smtp_server 127.0.0.1</span><br><span class="line">   smtp_connect_timeout 30</span><br><span class="line">   router_id KA_HELLO</span><br><span class="line">   vrrp_skip_check_adv_addr</span><br><span class="line">   vrrp_strict</span><br><span class="line">   vrrp_garp_interval 0</span><br><span class="line">   vrrp_gna_interval 0</span><br><span class="line">   vrrp_mcast_group4 224.0.0.15</span><br><span class="line">   vrrp_iptables</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance lvs_1 &#123;</span><br><span class="line">    state BACKUP</span><br><span class="line">    interface ens33</span><br><span class="line">    virtual_router_id 55</span><br><span class="line">    priority 95</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 052fad0e</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.132.85/24</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance lvs_2 &#123;</span><br><span class="line">    state MASTER</span><br><span class="line">    interface ens33</span><br><span class="line">    virtual_router_id 60</span><br><span class="line">    priority 100</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 052fad0e</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.132.88/24</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">virtual_server 192.168.132.85 80 &#123;</span><br><span class="line">        delay_loop 6</span><br><span class="line">        lb_algo rr</span><br><span class="line">        lb_kind DR</span><br><span class="line">        protocol TCP</span><br><span class="line"></span><br><span class="line">        real_server 192.168.132.81 80 &#123;</span><br><span class="line">                weight 1</span><br><span class="line">                HTTP_GET &#123;</span><br><span class="line">                        url &#123;</span><br><span class="line">                                path /health_check.html</span><br><span class="line">                                status_code 200</span><br><span class="line">                        &#125;</span><br><span class="line">                        connect_timeout 3</span><br><span class="line">                        nb_get_retry 3</span><br><span class="line">                        delay_before_retry 3</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        real_server 192.168.132.82 80 &#123;</span><br><span class="line">                weight 1</span><br><span class="line">                HTTP_GET &#123;</span><br><span class="line">                        url &#123;</span><br><span class="line">                                path /health_check.html</span><br><span class="line">                                status_code 200</span><br><span class="line">                        &#125;</span><br><span class="line">                        connect_timeout 3</span><br><span class="line">                        nb_get_retry 3</span><br><span class="line">                        delay_before_retry 3</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">virtual_server 192.168.132.88 80 &#123;</span><br><span class="line">        delay_loop 6</span><br><span class="line">        lb_algo rr</span><br><span class="line">        lb_kind DR</span><br><span class="line">        protocol TCP</span><br><span class="line"></span><br><span class="line">        real_server 192.168.132.81 80 &#123;</span><br><span class="line">                weight 1</span><br><span class="line">                HTTP_GET &#123;</span><br><span class="line">                        url &#123;</span><br><span class="line">                                path /health_check.html</span><br><span class="line">                                status_code 200</span><br><span class="line">                        &#125;</span><br><span class="line">                        connect_timeout 3</span><br><span class="line">                        nb_get_retry 3</span><br><span class="line">                        delay_before_retry 3</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        real_server 192.168.132.82 80 &#123;</span><br><span class="line">                weight 1</span><br><span class="line">                HTTP_GET &#123;</span><br><span class="line">                        url &#123;</span><br><span class="line">                                path /health_check.html</span><br><span class="line">                                status_code 200</span><br><span class="line">                        &#125;</span><br><span class="line">                        connect_timeout 3</span><br><span class="line">                        nb_get_retry 3</span><br><span class="line">                        delay_before_retry 3</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置完成之后重启服务,使用<code>ipvsadm</code>就可以看到lvs的规则列表了</p>
+<p><img src="F:\study\hexo-init\source\images\1531366365977.png" alt="1531366365977"></p>
+<p><img src="F:\study\hexo-init\source\images\1531367135528.png" alt="1531367135528"></p>
+<p>使用 <code>ip addr</code> 查看ip配置情况</p>
+<p><img src="F:\study\hexo-init\source\images\1531367476490.png" alt="1531367476490"></p>
+<p><img src="F:\study\hexo-init\source\images\1531367525601.png" alt="1531367525601"></p>
+<p><strong>real server配置脚本示例</strong> :这个脚本很low,需要执行两次,分别更换不同的vip,iface</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"># Author:       BigHero</span><br><span class="line"># version:      1.0</span><br><span class="line"># date:         2018-07-12</span><br><span class="line"></span><br><span class="line">iface=&quot;lo:1&quot;</span><br><span class="line">vip=&quot;192.168.132.85&quot;</span><br><span class="line">netmask=&quot;255.255.255.255&quot;</span><br><span class="line"></span><br><span class="line">start() &#123;</span><br><span class="line">        echo 1 &gt; /proc/sys/net/ipv4/conf/all/arp_ignore</span><br><span class="line">        echo 1 &gt; /proc/sys/net/ipv4/conf/lo/arp_ignore</span><br><span class="line">        echo 2 &gt; /proc/sys/net/ipv4/conf/all/arp_announce</span><br><span class="line">        echo 2 &gt; /proc/sys/net/ipv4/conf/lo/arp_announce</span><br><span class="line"></span><br><span class="line">        ifconfig $iface $vip netmask $netmask up</span><br><span class="line"></span><br><span class="line">        route add -host $vip dev $iface</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">stop() &#123;</span><br><span class="line"></span><br><span class="line">        ifconfig $iface down</span><br><span class="line"></span><br><span class="line">        echo 0 &gt; /proc/sys/net/ipv4/conf/all/arp_ignore</span><br><span class="line">        echo 0 &gt; /proc/sys/net/ipv4/conf/lo/arp_ignore</span><br><span class="line">        echo 0 &gt; /proc/sys/net/ipv4/conf/all/arp_announce</span><br><span class="line">        echo 0 &gt; /proc/sys/net/ipv4/conf/lo/arp_announce</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">case $1 in</span><br><span class="line">&quot;start&quot;)</span><br><span class="line">        start</span><br><span class="line">        ;;</span><br><span class="line">&quot;stop&quot;)</span><br><span class="line">        stop</span><br><span class="line">        ;;</span><br><span class="line">*)</span><br><span class="line">        echo &quot;Usage: $0 &#123;start|stop&#125;&quot;</span><br><span class="line">        ;;</span><br><span class="line">esac</span><br></pre></td></tr></table></figure>
+<p>查看网卡信息</p>
+<p><img src="F:\study\hexo-init\source\images\1531367605272.png" alt="1531367605272"></p>
+<p><img src="F:\study\hexo-init\source\images\1531367723436.png" alt="1531367723436"></p>
+<p>查看路由信息</p>
+<p><img src="F:\study\hexo-init\source\images\1531366621485.png" alt="1531366621485"></p>
+<p><img src="F:\study\hexo-init\source\images\1531367769143.png" alt="1531367769143"></p>
+<p>由于上面设置了对real server的健康性检查,因此需要在网页文件主目录中创建名为health_check.html的网页文件</p>
+<p>没有问题的话就可以测试了:</p>
+<p>首先在node2,和node3的家目录中创建一个网页测试文件,文件内容为当前主机ip地址,这样方便看效果,</p>
+<p><img src="F:\study\hexo-init\source\images\1531375766870.png" alt="1531375766870"></p>
+<p><img src="F:\study\hexo-init\source\images\1531375948567.png" alt="1531375948567"></p>
+<p>网页可以正常使用了,</p>
+<p>接下来测试一下keepalived的效果</p>
+<p><strong>测试其高可用</strong>是否正常将node1上的keepalived停掉,然后访问 192.168.132.85</p>
+<p><img src="F:\study\hexo-init\source\images\1531377055496.png" alt="1531377055496"></p>
+<p><strong>测试keepalived对real server的健康性检查</strong>,由于检测的是某一个网页,因此将这个网页删除,理论上,它就会检测失败,从而将该主机剔除</p>
+<p><img src="F:\study\hexo-init\source\images\1531377250090.png" alt="1531377250090"></p>
+<p>删除192.168.132.81上的health_check.html文件后,192.168.132.81已经被剔除,访问的网页也只有192.168.132.82这台主机上的</p>
+<p>至此keepalived高可用ipvs环境搭建成功</p>
+<h2 id="keepalived高可用haproxy"><a href="#keepalived高可用haproxy" class="headerlink" title="keepalived高可用haproxy"></a>keepalived高可用haproxy</h2><p>实验规划:</p>
+<table>
+<thead>
+<tr>
+<th>主机名</th>
+<th>ip地址</th>
+<th>部署服务</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>node1</td>
+<td>192.168.132.85</td>
+<td>keepalived+haproxy</td>
+</tr>
+<tr>
+<td>node2</td>
+<td>192.168.132.81</td>
+<td>httpd</td>
+</tr>
+<tr>
+<td>node3</td>
+<td>192.168.132.82</td>
+<td>httpd</td>
+</tr>
+<tr>
+<td>node4</td>
+<td>192.168.132.88</td>
+<td>keepalived+haproxy</td>
+</tr>
+</tbody>
+</table>
+<p>首先需要在node2和node3上安装httpd,这里不做详细说明</p>
+<p>在none1,node4安装keepalived和haporxy</p>
+<p><strong>配置node1上的keepalived:</strong> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">   notification_email &#123;</span><br><span class="line">     acassen@firewall.loc</span><br><span class="line">     failover@firewall.loc</span><br><span class="line">     sysadmin@firewall.loc</span><br><span class="line">   &#125;</span><br><span class="line">   notification_email_from Alexandre.Cassen@firewall.loc</span><br><span class="line">   smtp_server 127.0.0.1</span><br><span class="line">   smtp_connect_timeout 30</span><br><span class="line">   router_id KA_HELLO</span><br><span class="line">   vrrp_skip_check_adv_addr</span><br><span class="line">   vrrp_strict</span><br><span class="line">   vrrp_garp_interval 0</span><br><span class="line">   vrrp_gna_interval 0</span><br><span class="line">   vrrp_mcast_group4 224.0.0.15</span><br><span class="line">   vrrp_iptables</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_script chk_haproxy &#123; # 注意这个脚本段必须放在定虚拟路由器段的前面</span><br><span class="line">    script &quot;/usr/bin/killall -0 haprxy&quot; # 指定要执行的脚本,注意此处使用内部命令,必须用bash执行,因为这个命令是直接通过systemd执行的</span><br><span class="line">    interval 1 #脚本执行间隔</span><br><span class="line">    weight -10 #到脚本返回非0的状态码时,指定其权重</span><br><span class="line">    rise 2 # 转换为正常状态时需要检查的次数</span><br><span class="line">    fall 3 # 转换为失败状态需要检查的次数</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance lvs_1 &#123;</span><br><span class="line">    state MASTER</span><br><span class="line">    interface ens33</span><br><span class="line">    virtual_router_id 55</span><br><span class="line">    priority 95</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 052fad0e</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.132.85/24</span><br><span class="line">    &#125;</span><br><span class="line">    track_script &#123; #调用脚本,注意这个应该写在主服务器的上面</span><br><span class="line">        chk_haproxy</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance lvs_2 &#123;</span><br><span class="line">    state BACKUP</span><br><span class="line">    interface ens33</span><br><span class="line">    virtual_router_id 60</span><br><span class="line">    priority 100</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 052fad0e</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.132.88/24</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>配置node4上的keepalived</strong>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">global_defs &#123;</span><br><span class="line">   notification_email &#123;</span><br><span class="line">     acassen@firewall.loc</span><br><span class="line">     failover@firewall.loc</span><br><span class="line">     sysadmin@firewall.loc</span><br><span class="line">   &#125;</span><br><span class="line">   notification_email_from Alexandre.Cassen@firewall.loc</span><br><span class="line">   smtp_server 127.0.0.1</span><br><span class="line">   smtp_connect_timeout 30</span><br><span class="line">   router_id KA_HELLO</span><br><span class="line">   vrrp_skip_check_adv_addr</span><br><span class="line">   vrrp_strict</span><br><span class="line">   vrrp_garp_interval 0</span><br><span class="line">   vrrp_gna_interval 0</span><br><span class="line">   vrrp_mcast_group4 224.0.0.15</span><br><span class="line">   vrrp_iptables</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_script chk_haproxy &#123;</span><br><span class="line">        script &quot;/usr/bin/killall -0 haproxy&quot;</span><br><span class="line">        interval 1</span><br><span class="line">        weight -10</span><br><span class="line">        fall 2</span><br><span class="line">        rise 1</span><br><span class="line">&#125;</span><br><span class="line">vrrp_instance lvs_1 &#123;</span><br><span class="line">    state BACKUP</span><br><span class="line">    interface ens33</span><br><span class="line">    virtual_router_id 55</span><br><span class="line">    priority 95</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 052fad0e</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.132.85/24</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance lvs_2 &#123;</span><br><span class="line">    state MASTER</span><br><span class="line">    interface ens33</span><br><span class="line">    virtual_router_id 60</span><br><span class="line">    priority 100</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 052fad0e</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        192.168.132.88/24</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    track_script &#123;</span><br><span class="line">        chk_haproxy</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>配置haproxy</strong>: 两台配置一样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">frontend httpd *:80</span><br><span class="line">        bind :80 # 注意这个地方绑定端口的时候,不要绑定ip地址,否则当前主机的ip飘到其他主机后,此时再启动服务因为找不到ip会无法启动</span><br><span class="line">        mode http</span><br><span class="line">        default_backend srv_httpd</span><br><span class="line">backend srv_httpd</span><br><span class="line">        balance roundrobin</span><br><span class="line">        server node2 192.168.132.82:80 weight 1 check</span><br><span class="line">        server node3 192.168.132.81:80 weight 1 check</span><br></pre></td></tr></table></figure>
+<p>没有问题的话接下来就可以启动服务了,</p>
+<p><strong>测试</strong>:访问node4,然后将其上面的haproxy停掉,</p>
+<p><img src="F:\study\hexo-init\source\images\1531387207198.png" alt="1531387207198"></p>
+<p>当停止node4上的haproxy后,会有短暂的无法访问,接着又可以正常访问了,说明我们的keepalived可以正常工作</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+    <div align="center">
+      
+        <div class="copyright">
+        <p><span>
+        <b>本文地址：</b><a href="/2018/07/12/keepalived-ipvs-haproxy/" title="使用keepalived高可用ipvs和haproxy">http://smartyhero.com/2018/07/12/keepalived-ipvs-haproxy/</a><br/><b>转载请注明出处，谢谢！</b>
+        </span></p>
+        </div>
+      
+    </div>
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/高可用/" rel="tag"><i class="fa fa-tag"></i> 高可用</a>
+          
+            <a href="/tags/集群/" rel="tag"><i class="fa fa-tag"></i> 集群</a>
+          
+            <a href="/tags/示例/" rel="tag"><i class="fa fa-tag"></i> 示例</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/12/keepalived/" rel="next" title="keepalived">
+                <i class="fa fa-chevron-left"></i> keepalived
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/dabai.jpg"
+                alt="朱大白" />
+            
+              <p class="site-author-name" itemprop="name">朱大白</p>
+              <p class="site-description motion-element" itemprop="description">试图不断调战自己舒适区的人</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives">
+                
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/zhudabai" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:uuidxiaozhu@163.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#keepalived高可用ipvs"><span class="nav-number">1.</span> <span class="nav-text">keepalived高可用ipvs</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置示例"><span class="nav-number">1.1.</span> <span class="nav-text">配置示例:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#keepalived高可用haproxy"><span class="nav-number"></span> <span class="nav-text">keepalived高可用haproxy</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">朱大白</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by"><a class="theme-link" target="_blank" href=""></a> 雾里看花</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">水中望月
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.2.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
